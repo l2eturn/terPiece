@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-subbuild/CMakeFiles/cgltf-populate"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-subbuild/CMakeFiles/cgltf-populate.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-subbuild/CMakeFiles/cgltf-populate-complete.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-subbuild/cgltf-populate-prefix/src/cgltf-populate-stamp/cgltf-populate-build.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-subbuild/cgltf-populate-prefix/src/cgltf-populate-stamp/cgltf-populate-configure.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-subbuild/cgltf-populate-prefix/src/cgltf-populate-stamp/cgltf-populate-download.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-subbuild/cgltf-populate-prefix/src/cgltf-populate-stamp/cgltf-populate-install.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-subbuild/cgltf-populate-prefix/src/cgltf-populate-stamp/cgltf-populate-mkdir.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-subbuild/cgltf-populate-prefix/src/cgltf-populate-stamp/cgltf-populate-patch.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-subbuild/cgltf-populate-prefix/src/cgltf-populate-stamp/cgltf-populate-test.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-subbuild/cgltf-populate-prefix/src/cgltf-populate-stamp/cgltf-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"cgltf-populate"
+		],
+		"name" : "cgltf-populate"
+	}
+}

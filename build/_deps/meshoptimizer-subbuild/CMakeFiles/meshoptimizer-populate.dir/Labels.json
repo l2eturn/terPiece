@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/CMakeFiles/meshoptimizer-populate"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/CMakeFiles/meshoptimizer-populate.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/CMakeFiles/meshoptimizer-populate-complete.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-build.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-configure.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-download.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-install.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-mkdir.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-patch.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-test.rule"
+		},
+		{
+			"file" : "/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"meshoptimizer-populate"
+		],
+		"name" : "meshoptimizer-populate"
+	}
+}

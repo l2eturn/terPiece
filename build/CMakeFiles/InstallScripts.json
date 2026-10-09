@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/smarttapon/coding_prac/terPiece/build/cmake_install.cmake",
+		"/Users/smarttapon/coding_prac/terPiece/build/_deps/glm-build/cmake_install.cmake",
+		"/Users/smarttapon/coding_prac/terPiece/build/_deps/glm-build/glm/cmake_install.cmake",
+		"/Users/smarttapon/coding_prac/terPiece/build/_deps/json-build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

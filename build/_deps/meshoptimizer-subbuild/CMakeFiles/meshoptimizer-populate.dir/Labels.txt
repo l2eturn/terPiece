@@ -1,0 +1,14 @@
+# Target labels
+ meshoptimizer-populate
+# Source files and their labels
+/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/CMakeFiles/meshoptimizer-populate
+/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/CMakeFiles/meshoptimizer-populate.rule
+/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/CMakeFiles/meshoptimizer-populate-complete.rule
+/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-build.rule
+/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-configure.rule
+/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-download.rule
+/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-install.rule
+/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-mkdir.rule
+/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-patch.rule
+/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-test.rule
+/Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-subbuild/meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-update.rule

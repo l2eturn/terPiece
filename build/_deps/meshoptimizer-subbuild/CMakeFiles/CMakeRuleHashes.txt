@@ -1,0 +1,11 @@
+# Hashes of file build rules.
+542db4c72c8baba7caa3018fa953b92c CMakeFiles/meshoptimizer-populate
+717c9ad7926c5f14f04230521ae98cd9 CMakeFiles/meshoptimizer-populate-complete
+10836dc81134f4ec35e3c75371d08579 meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-build
+38858047ba2067947ce60394273fca5a meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-configure
+60a158deeb79d363b705105269ccf844 meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-download
+debd004aba87cfa8cee0148a0ab900f0 meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-install
+63772795e9c9fedaf41d724d99c4a36a meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-mkdir
+5860c34792b5dce6809c462843ae7e01 meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-patch
+7aadfd87588cc28e8cc88672f928c808 meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-test
+7b6d183785247fed2908ac704ac5e010 meshoptimizer-populate-prefix/src/meshoptimizer-populate-stamp/meshoptimizer-populate-update

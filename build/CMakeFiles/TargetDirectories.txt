@@ -1,0 +1,10 @@
+/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles/terpiece.dir
+/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles/edit_cache.dir
+/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles/rebuild_cache.dir
+/Users/smarttapon/coding_prac/terPiece/build/_deps/glm-build/CMakeFiles/edit_cache.dir
+/Users/smarttapon/coding_prac/terPiece/build/_deps/glm-build/CMakeFiles/rebuild_cache.dir
+/Users/smarttapon/coding_prac/terPiece/build/_deps/glm-build/glm/CMakeFiles/glm.dir
+/Users/smarttapon/coding_prac/terPiece/build/_deps/glm-build/glm/CMakeFiles/edit_cache.dir
+/Users/smarttapon/coding_prac/terPiece/build/_deps/glm-build/glm/CMakeFiles/rebuild_cache.dir
+/Users/smarttapon/coding_prac/terPiece/build/_deps/json-build/CMakeFiles/edit_cache.dir
+/Users/smarttapon/coding_prac/terPiece/build/_deps/json-build/CMakeFiles/rebuild_cache.dir
