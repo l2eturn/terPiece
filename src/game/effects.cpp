@@ -36,6 +36,8 @@ void Snowfall::update(float t, glm::vec3 center) {
 // ---------- fireworks ----------
 Fireworks::Fireworks(int capacity) : capacity_(capacity) {
     geo_ = std::make_shared<Geometry>();
+    // rewritten every frame
+    geo_->dynamic = true;
     geo_->position.assign(capacity, glm::vec3(0));
     geo_->extra.push_back({"aColor", 4, std::vector<float>((size_t)capacity * 4, 0)});
     vel_.assign(capacity, glm::vec3(0));

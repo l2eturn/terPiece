@@ -25,11 +25,16 @@ public:
     bool waterFlow(float x, float z, glm::vec2& flow, float& heading) const override;
     bool isFree(float x, float z, float r, bool ignoreTrees = false) const override;
     std::string zoneAt(float x, float z) const override;
+    Surface surfaceAt(float x, float z) const override;
+    // bare ground height in blocks at a global point (no platforms, no swimming)
+    float terrainHeight(float x, float z) const;
     void setTimeOfDay(const std::string& name) override;
     void update(float t, float dt, glm::vec3 focus) override;
 
     // which area a global point belongs to
     std::string areaAt(float x, float z) const;
+    // area of the ground column a point stands on (the block grid decides, not the exact point)
+    std::string groundAreaAt(float x, float z) const;
     Area area(const std::string& name) const;
     // global <-> area-local helpers (y and yaw included)
     glm::vec3 toLocal(const std::string& area, glm::vec3 p) const;

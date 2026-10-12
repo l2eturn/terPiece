@@ -190,3 +190,21 @@ void Audio::fanfare() {
     for (int i = 0; i < 7; ++i) d->tone(f[i], i * 0.13, 0.5, Wave::Triangle, 0.1);
 }
 void Audio::boom() { d->tone(90, 0, 0.6, Wave::Sawtooth, 0.05, 0.4); }
+void Audio::swing() { d->tone(620 + frand() * 80, 0, 0.12, Wave::Triangle, 0.035, 0.35); }
+void Audio::hit(bool crit) {
+    d->crunch();
+    d->tone(crit ? 240 : 170, 0, 0.12, Wave::Square, 0.07, 0.45);
+    if (crit) d->tone(1200, 0.02, 0.18, Wave::Sine, 0.05);
+}
+void Audio::hurt() {
+    d->crunch();
+    d->tone(300, 0, 0.25, Wave::Sawtooth, 0.06, 0.45);
+}
+void Audio::slay() {
+    d->tone(520, 0, 0.14, Wave::Square, 0.05, 0.5);
+    d->tone(260, 0.08, 0.3, Wave::Triangle, 0.07, 0.3);
+}
+void Audio::levelUp() {
+    const double f[5] = {523, 659, 784, 1047, 1319};
+    for (int i = 0; i < 5; ++i) d->tone(f[i], i * 0.08, 0.45, Wave::Triangle, 0.09);
+}

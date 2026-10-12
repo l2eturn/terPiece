@@ -96,6 +96,8 @@ struct Loader {
         if (ok) {
             tex = std::make_shared<Texture>();
             TextureOptions o;
+            // nothing in the scene is big enough on screen to need more
+            o.maxSize = 2048;
             o.srgb = srgb;
             o.nearest = false;
             o.flipY = false;

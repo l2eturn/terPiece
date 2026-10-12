@@ -142,10 +142,24 @@ CMakeFiles/terpiece.dir/src/game/berries.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/terpiece.dir/src/game/berries.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/smarttapon/coding_prac/terPiece/src/game/berries.cpp -o CMakeFiles/terpiece.dir/src/game/berries.cpp.s
 
+CMakeFiles/terpiece.dir/src/game/combat.cpp.o: CMakeFiles/terpiece.dir/flags.make
+CMakeFiles/terpiece.dir/src/game/combat.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/game/combat.cpp
+CMakeFiles/terpiece.dir/src/game/combat.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/terpiece.dir/src/game/combat.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/game/combat.cpp.o -MF CMakeFiles/terpiece.dir/src/game/combat.cpp.o.d -o CMakeFiles/terpiece.dir/src/game/combat.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/game/combat.cpp
+
+CMakeFiles/terpiece.dir/src/game/combat.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/terpiece.dir/src/game/combat.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/smarttapon/coding_prac/terPiece/src/game/combat.cpp > CMakeFiles/terpiece.dir/src/game/combat.cpp.i
+
+CMakeFiles/terpiece.dir/src/game/combat.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/terpiece.dir/src/game/combat.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/smarttapon/coding_prac/terPiece/src/game/combat.cpp -o CMakeFiles/terpiece.dir/src/game/combat.cpp.s
+
 CMakeFiles/terpiece.dir/src/game/effects.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/game/effects.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/game/effects.cpp
 CMakeFiles/terpiece.dir/src/game/effects.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/terpiece.dir/src/game/effects.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/terpiece.dir/src/game/effects.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/game/effects.cpp.o -MF CMakeFiles/terpiece.dir/src/game/effects.cpp.o.d -o CMakeFiles/terpiece.dir/src/game/effects.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/game/effects.cpp
 
 CMakeFiles/terpiece.dir/src/game/effects.cpp.i: cmake_force
@@ -159,7 +173,7 @@ CMakeFiles/terpiece.dir/src/game/effects.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/game/game.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/game/game.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/game/game.cpp
 CMakeFiles/terpiece.dir/src/game/game.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/terpiece.dir/src/game/game.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/terpiece.dir/src/game/game.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/game/game.cpp.o -MF CMakeFiles/terpiece.dir/src/game/game.cpp.o.d -o CMakeFiles/terpiece.dir/src/game/game.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/game/game.cpp
 
 CMakeFiles/terpiece.dir/src/game/game.cpp.i: cmake_force
@@ -173,7 +187,7 @@ CMakeFiles/terpiece.dir/src/game/game.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/game/home.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/game/home.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/game/home.cpp
 CMakeFiles/terpiece.dir/src/game/home.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/terpiece.dir/src/game/home.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/terpiece.dir/src/game/home.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/game/home.cpp.o -MF CMakeFiles/terpiece.dir/src/game/home.cpp.o.d -o CMakeFiles/terpiece.dir/src/game/home.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/game/home.cpp
 
 CMakeFiles/terpiece.dir/src/game/home.cpp.i: cmake_force
@@ -187,7 +201,7 @@ CMakeFiles/terpiece.dir/src/game/home.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/game/parkour.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/game/parkour.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/game/parkour.cpp
 CMakeFiles/terpiece.dir/src/game/parkour.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/terpiece.dir/src/game/parkour.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/terpiece.dir/src/game/parkour.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/game/parkour.cpp.o -MF CMakeFiles/terpiece.dir/src/game/parkour.cpp.o.d -o CMakeFiles/terpiece.dir/src/game/parkour.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/game/parkour.cpp
 
 CMakeFiles/terpiece.dir/src/game/parkour.cpp.i: cmake_force
@@ -201,7 +215,7 @@ CMakeFiles/terpiece.dir/src/game/parkour.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/game/pets.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/game/pets.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/game/pets.cpp
 CMakeFiles/terpiece.dir/src/game/pets.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/terpiece.dir/src/game/pets.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/terpiece.dir/src/game/pets.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/game/pets.cpp.o -MF CMakeFiles/terpiece.dir/src/game/pets.cpp.o.d -o CMakeFiles/terpiece.dir/src/game/pets.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/game/pets.cpp
 
 CMakeFiles/terpiece.dir/src/game/pets.cpp.i: cmake_force
@@ -215,7 +229,7 @@ CMakeFiles/terpiece.dir/src/game/pets.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/game/player.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/game/player.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/game/player.cpp
 CMakeFiles/terpiece.dir/src/game/player.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/terpiece.dir/src/game/player.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/terpiece.dir/src/game/player.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/game/player.cpp.o -MF CMakeFiles/terpiece.dir/src/game/player.cpp.o.d -o CMakeFiles/terpiece.dir/src/game/player.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/game/player.cpp
 
 CMakeFiles/terpiece.dir/src/game/player.cpp.i: cmake_force
@@ -229,7 +243,7 @@ CMakeFiles/terpiece.dir/src/game/player.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/game/save.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/game/save.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/game/save.cpp
 CMakeFiles/terpiece.dir/src/game/save.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/terpiece.dir/src/game/save.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/terpiece.dir/src/game/save.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/game/save.cpp.o -MF CMakeFiles/terpiece.dir/src/game/save.cpp.o.d -o CMakeFiles/terpiece.dir/src/game/save.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/game/save.cpp
 
 CMakeFiles/terpiece.dir/src/game/save.cpp.i: cmake_force
@@ -243,7 +257,7 @@ CMakeFiles/terpiece.dir/src/game/save.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/game/vehicles.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/game/vehicles.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/game/vehicles.cpp
 CMakeFiles/terpiece.dir/src/game/vehicles.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/terpiece.dir/src/game/vehicles.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/terpiece.dir/src/game/vehicles.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/game/vehicles.cpp.o -MF CMakeFiles/terpiece.dir/src/game/vehicles.cpp.o.d -o CMakeFiles/terpiece.dir/src/game/vehicles.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/game/vehicles.cpp
 
 CMakeFiles/terpiece.dir/src/game/vehicles.cpp.i: cmake_force
@@ -257,7 +271,7 @@ CMakeFiles/terpiece.dir/src/game/vehicles.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/gfx/image.mm.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/gfx/image.mm.o: /Users/smarttapon/coding_prac/terPiece/src/gfx/image.mm
 CMakeFiles/terpiece.dir/src/gfx/image.mm.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building OBJCXX object CMakeFiles/terpiece.dir/src/gfx/image.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building OBJCXX object CMakeFiles/terpiece.dir/src/gfx/image.mm.o"
 	/usr/bin/clang++ $(OBJCXX_DEFINES) $(OBJCXX_INCLUDES) -x objective-c++ $(OBJCXX_FLAGS) -fobjc-arc -MD -MT CMakeFiles/terpiece.dir/src/gfx/image.mm.o -MF CMakeFiles/terpiece.dir/src/gfx/image.mm.o.d -o CMakeFiles/terpiece.dir/src/gfx/image.mm.o -c /Users/smarttapon/coding_prac/terPiece/src/gfx/image.mm
 
 CMakeFiles/terpiece.dir/src/gfx/image.mm.i: cmake_force
@@ -271,7 +285,7 @@ CMakeFiles/terpiece.dir/src/gfx/image.mm.s: cmake_force
 CMakeFiles/terpiece.dir/src/gfx/shader.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/gfx/shader.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/gfx/shader.cpp
 CMakeFiles/terpiece.dir/src/gfx/shader.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/terpiece.dir/src/gfx/shader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/terpiece.dir/src/gfx/shader.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/gfx/shader.cpp.o -MF CMakeFiles/terpiece.dir/src/gfx/shader.cpp.o.d -o CMakeFiles/terpiece.dir/src/gfx/shader.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/gfx/shader.cpp
 
 CMakeFiles/terpiece.dir/src/gfx/shader.cpp.i: cmake_force
@@ -285,7 +299,7 @@ CMakeFiles/terpiece.dir/src/gfx/shader.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/gfx/texture.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/gfx/texture.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/gfx/texture.cpp
 CMakeFiles/terpiece.dir/src/gfx/texture.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/terpiece.dir/src/gfx/texture.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/terpiece.dir/src/gfx/texture.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/gfx/texture.cpp.o -MF CMakeFiles/terpiece.dir/src/gfx/texture.cpp.o.d -o CMakeFiles/terpiece.dir/src/gfx/texture.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/gfx/texture.cpp
 
 CMakeFiles/terpiece.dir/src/gfx/texture.cpp.i: cmake_force
@@ -299,7 +313,7 @@ CMakeFiles/terpiece.dir/src/gfx/texture.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/main.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/main.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/main.cpp
 CMakeFiles/terpiece.dir/src/main.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/terpiece.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/terpiece.dir/src/main.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/main.cpp.o -MF CMakeFiles/terpiece.dir/src/main.cpp.o.d -o CMakeFiles/terpiece.dir/src/main.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/main.cpp
 
 CMakeFiles/terpiece.dir/src/main.cpp.i: cmake_force
@@ -313,7 +327,7 @@ CMakeFiles/terpiece.dir/src/main.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/net/net.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/net/net.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/net/net.cpp
 CMakeFiles/terpiece.dir/src/net/net.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/terpiece.dir/src/net/net.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/terpiece.dir/src/net/net.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/net/net.cpp.o -MF CMakeFiles/terpiece.dir/src/net/net.cpp.o.d -o CMakeFiles/terpiece.dir/src/net/net.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/net/net.cpp
 
 CMakeFiles/terpiece.dir/src/net/net.cpp.i: cmake_force
@@ -327,7 +341,7 @@ CMakeFiles/terpiece.dir/src/net/net.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/scene/geometry.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/scene/geometry.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/scene/geometry.cpp
 CMakeFiles/terpiece.dir/src/scene/geometry.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/terpiece.dir/src/scene/geometry.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/terpiece.dir/src/scene/geometry.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/scene/geometry.cpp.o -MF CMakeFiles/terpiece.dir/src/scene/geometry.cpp.o.d -o CMakeFiles/terpiece.dir/src/scene/geometry.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/scene/geometry.cpp
 
 CMakeFiles/terpiece.dir/src/scene/geometry.cpp.i: cmake_force
@@ -341,7 +355,7 @@ CMakeFiles/terpiece.dir/src/scene/geometry.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/scene/gltf.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/scene/gltf.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/scene/gltf.cpp
 CMakeFiles/terpiece.dir/src/scene/gltf.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/terpiece.dir/src/scene/gltf.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/terpiece.dir/src/scene/gltf.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/scene/gltf.cpp.o -MF CMakeFiles/terpiece.dir/src/scene/gltf.cpp.o.d -o CMakeFiles/terpiece.dir/src/scene/gltf.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/scene/gltf.cpp
 
 CMakeFiles/terpiece.dir/src/scene/gltf.cpp.i: cmake_force
@@ -355,7 +369,7 @@ CMakeFiles/terpiece.dir/src/scene/gltf.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/scene/object.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/scene/object.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/scene/object.cpp
 CMakeFiles/terpiece.dir/src/scene/object.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/terpiece.dir/src/scene/object.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/terpiece.dir/src/scene/object.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/scene/object.cpp.o -MF CMakeFiles/terpiece.dir/src/scene/object.cpp.o.d -o CMakeFiles/terpiece.dir/src/scene/object.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/scene/object.cpp
 
 CMakeFiles/terpiece.dir/src/scene/object.cpp.i: cmake_force
@@ -369,7 +383,7 @@ CMakeFiles/terpiece.dir/src/scene/object.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/scene/renderer.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/scene/renderer.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/scene/renderer.cpp
 CMakeFiles/terpiece.dir/src/scene/renderer.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/terpiece.dir/src/scene/renderer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/terpiece.dir/src/scene/renderer.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/scene/renderer.cpp.o -MF CMakeFiles/terpiece.dir/src/scene/renderer.cpp.o.d -o CMakeFiles/terpiece.dir/src/scene/renderer.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/scene/renderer.cpp
 
 CMakeFiles/terpiece.dir/src/scene/renderer.cpp.i: cmake_force
@@ -383,7 +397,7 @@ CMakeFiles/terpiece.dir/src/scene/renderer.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/ui/canvas2d.mm.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/ui/canvas2d.mm.o: /Users/smarttapon/coding_prac/terPiece/src/ui/canvas2d.mm
 CMakeFiles/terpiece.dir/src/ui/canvas2d.mm.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building OBJCXX object CMakeFiles/terpiece.dir/src/ui/canvas2d.mm.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building OBJCXX object CMakeFiles/terpiece.dir/src/ui/canvas2d.mm.o"
 	/usr/bin/clang++ $(OBJCXX_DEFINES) $(OBJCXX_INCLUDES) -x objective-c++ $(OBJCXX_FLAGS) -fobjc-arc -MD -MT CMakeFiles/terpiece.dir/src/ui/canvas2d.mm.o -MF CMakeFiles/terpiece.dir/src/ui/canvas2d.mm.o.d -o CMakeFiles/terpiece.dir/src/ui/canvas2d.mm.o -c /Users/smarttapon/coding_prac/terPiece/src/ui/canvas2d.mm
 
 CMakeFiles/terpiece.dir/src/ui/canvas2d.mm.i: cmake_force
@@ -397,7 +411,7 @@ CMakeFiles/terpiece.dir/src/ui/canvas2d.mm.s: cmake_force
 CMakeFiles/terpiece.dir/src/ui/hud.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/ui/hud.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/ui/hud.cpp
 CMakeFiles/terpiece.dir/src/ui/hud.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/terpiece.dir/src/ui/hud.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/terpiece.dir/src/ui/hud.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/ui/hud.cpp.o -MF CMakeFiles/terpiece.dir/src/ui/hud.cpp.o.d -o CMakeFiles/terpiece.dir/src/ui/hud.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/ui/hud.cpp
 
 CMakeFiles/terpiece.dir/src/ui/hud.cpp.i: cmake_force
@@ -411,7 +425,7 @@ CMakeFiles/terpiece.dir/src/ui/hud.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/ui/minimap.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/ui/minimap.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/ui/minimap.cpp
 CMakeFiles/terpiece.dir/src/ui/minimap.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/terpiece.dir/src/ui/minimap.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/terpiece.dir/src/ui/minimap.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/ui/minimap.cpp.o -MF CMakeFiles/terpiece.dir/src/ui/minimap.cpp.o.d -o CMakeFiles/terpiece.dir/src/ui/minimap.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/ui/minimap.cpp
 
 CMakeFiles/terpiece.dir/src/ui/minimap.cpp.i: cmake_force
@@ -425,7 +439,7 @@ CMakeFiles/terpiece.dir/src/ui/minimap.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/world/cubeworld.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/world/cubeworld.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/world/cubeworld.cpp
 CMakeFiles/terpiece.dir/src/world/cubeworld.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/terpiece.dir/src/world/cubeworld.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/terpiece.dir/src/world/cubeworld.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/world/cubeworld.cpp.o -MF CMakeFiles/terpiece.dir/src/world/cubeworld.cpp.o.d -o CMakeFiles/terpiece.dir/src/world/cubeworld.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/world/cubeworld.cpp
 
 CMakeFiles/terpiece.dir/src/world/cubeworld.cpp.i: cmake_force
@@ -439,7 +453,7 @@ CMakeFiles/terpiece.dir/src/world/cubeworld.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/world/medieval.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/world/medieval.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/world/medieval.cpp
 CMakeFiles/terpiece.dir/src/world/medieval.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/terpiece.dir/src/world/medieval.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/terpiece.dir/src/world/medieval.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/world/medieval.cpp.o -MF CMakeFiles/terpiece.dir/src/world/medieval.cpp.o.d -o CMakeFiles/terpiece.dir/src/world/medieval.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/world/medieval.cpp
 
 CMakeFiles/terpiece.dir/src/world/medieval.cpp.i: cmake_force
@@ -453,7 +467,7 @@ CMakeFiles/terpiece.dir/src/world/medieval.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/world/overworld.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/world/overworld.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/world/overworld.cpp
 CMakeFiles/terpiece.dir/src/world/overworld.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/terpiece.dir/src/world/overworld.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/terpiece.dir/src/world/overworld.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/world/overworld.cpp.o -MF CMakeFiles/terpiece.dir/src/world/overworld.cpp.o.d -o CMakeFiles/terpiece.dir/src/world/overworld.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/world/overworld.cpp
 
 CMakeFiles/terpiece.dir/src/world/overworld.cpp.i: cmake_force
@@ -464,10 +478,24 @@ CMakeFiles/terpiece.dir/src/world/overworld.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/terpiece.dir/src/world/overworld.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/smarttapon/coding_prac/terPiece/src/world/overworld.cpp -o CMakeFiles/terpiece.dir/src/world/overworld.cpp.s
 
+CMakeFiles/terpiece.dir/src/world/terrain.cpp.o: CMakeFiles/terpiece.dir/flags.make
+CMakeFiles/terpiece.dir/src/world/terrain.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/world/terrain.cpp
+CMakeFiles/terpiece.dir/src/world/terrain.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/terpiece.dir/src/world/terrain.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/world/terrain.cpp.o -MF CMakeFiles/terpiece.dir/src/world/terrain.cpp.o.d -o CMakeFiles/terpiece.dir/src/world/terrain.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/world/terrain.cpp
+
+CMakeFiles/terpiece.dir/src/world/terrain.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/terpiece.dir/src/world/terrain.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/smarttapon/coding_prac/terPiece/src/world/terrain.cpp > CMakeFiles/terpiece.dir/src/world/terrain.cpp.i
+
+CMakeFiles/terpiece.dir/src/world/terrain.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/terpiece.dir/src/world/terrain.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/smarttapon/coding_prac/terPiece/src/world/terrain.cpp -o CMakeFiles/terpiece.dir/src/world/terrain.cpp.s
+
 CMakeFiles/terpiece.dir/src/world/winter.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/world/winter.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/world/winter.cpp
 CMakeFiles/terpiece.dir/src/world/winter.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/terpiece.dir/src/world/winter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/terpiece.dir/src/world/winter.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/world/winter.cpp.o -MF CMakeFiles/terpiece.dir/src/world/winter.cpp.o.d -o CMakeFiles/terpiece.dir/src/world/winter.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/world/winter.cpp
 
 CMakeFiles/terpiece.dir/src/world/winter.cpp.i: cmake_force
@@ -481,7 +509,7 @@ CMakeFiles/terpiece.dir/src/world/winter.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/src/world/world.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/src/world/world.cpp.o: /Users/smarttapon/coding_prac/terPiece/src/world/world.cpp
 CMakeFiles/terpiece.dir/src/world/world.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/terpiece.dir/src/world/world.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/terpiece.dir/src/world/world.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/terpiece.dir/src/world/world.cpp.o -MF CMakeFiles/terpiece.dir/src/world/world.cpp.o.d -o CMakeFiles/terpiece.dir/src/world/world.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/world/world.cpp
 
 CMakeFiles/terpiece.dir/src/world/world.cpp.i: cmake_force
@@ -495,7 +523,7 @@ CMakeFiles/terpiece.dir/src/world/world.cpp.s: cmake_force
 CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexcodec.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexcodec.cpp.o: _deps/meshoptimizer-src/src/vertexcodec.cpp
 CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexcodec.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexcodec.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexcodec.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -w -MD -MT CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexcodec.cpp.o -MF CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexcodec.cpp.o.d -o CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexcodec.cpp.o -c /Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-src/src/vertexcodec.cpp
 
 CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexcodec.cpp.i: cmake_force
@@ -509,7 +537,7 @@ CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexcodec.cpp.s: cmake_for
 CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/indexcodec.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/indexcodec.cpp.o: _deps/meshoptimizer-src/src/indexcodec.cpp
 CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/indexcodec.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/indexcodec.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/indexcodec.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -w -MD -MT CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/indexcodec.cpp.o -MF CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/indexcodec.cpp.o.d -o CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/indexcodec.cpp.o -c /Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-src/src/indexcodec.cpp
 
 CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/indexcodec.cpp.i: cmake_force
@@ -523,7 +551,7 @@ CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/indexcodec.cpp.s: cmake_forc
 CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexfilter.cpp.o: CMakeFiles/terpiece.dir/flags.make
 CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexfilter.cpp.o: _deps/meshoptimizer-src/src/vertexfilter.cpp
 CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexfilter.cpp.o: CMakeFiles/terpiece.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexfilter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexfilter.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -w -MD -MT CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexfilter.cpp.o -MF CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexfilter.cpp.o.d -o CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexfilter.cpp.o -c /Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-src/src/vertexfilter.cpp
 
 CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexfilter.cpp.i: cmake_force
@@ -541,6 +569,7 @@ terpiece_OBJECTS = \
 "CMakeFiles/terpiece.dir/src/art/textures.cpp.o" \
 "CMakeFiles/terpiece.dir/src/audio/audio.cpp.o" \
 "CMakeFiles/terpiece.dir/src/game/berries.cpp.o" \
+"CMakeFiles/terpiece.dir/src/game/combat.cpp.o" \
 "CMakeFiles/terpiece.dir/src/game/effects.cpp.o" \
 "CMakeFiles/terpiece.dir/src/game/game.cpp.o" \
 "CMakeFiles/terpiece.dir/src/game/home.cpp.o" \
@@ -564,6 +593,7 @@ terpiece_OBJECTS = \
 "CMakeFiles/terpiece.dir/src/world/cubeworld.cpp.o" \
 "CMakeFiles/terpiece.dir/src/world/medieval.cpp.o" \
 "CMakeFiles/terpiece.dir/src/world/overworld.cpp.o" \
+"CMakeFiles/terpiece.dir/src/world/terrain.cpp.o" \
 "CMakeFiles/terpiece.dir/src/world/winter.cpp.o" \
 "CMakeFiles/terpiece.dir/src/world/world.cpp.o" \
 "CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexcodec.cpp.o" \
@@ -578,6 +608,7 @@ terpiece: CMakeFiles/terpiece.dir/src/art/sprites.cpp.o
 terpiece: CMakeFiles/terpiece.dir/src/art/textures.cpp.o
 terpiece: CMakeFiles/terpiece.dir/src/audio/audio.cpp.o
 terpiece: CMakeFiles/terpiece.dir/src/game/berries.cpp.o
+terpiece: CMakeFiles/terpiece.dir/src/game/combat.cpp.o
 terpiece: CMakeFiles/terpiece.dir/src/game/effects.cpp.o
 terpiece: CMakeFiles/terpiece.dir/src/game/game.cpp.o
 terpiece: CMakeFiles/terpiece.dir/src/game/home.cpp.o
@@ -601,6 +632,7 @@ terpiece: CMakeFiles/terpiece.dir/src/ui/minimap.cpp.o
 terpiece: CMakeFiles/terpiece.dir/src/world/cubeworld.cpp.o
 terpiece: CMakeFiles/terpiece.dir/src/world/medieval.cpp.o
 terpiece: CMakeFiles/terpiece.dir/src/world/overworld.cpp.o
+terpiece: CMakeFiles/terpiece.dir/src/world/terrain.cpp.o
 terpiece: CMakeFiles/terpiece.dir/src/world/winter.cpp.o
 terpiece: CMakeFiles/terpiece.dir/src/world/world.cpp.o
 terpiece: CMakeFiles/terpiece.dir/_deps/meshoptimizer-src/src/vertexcodec.cpp.o
@@ -611,7 +643,7 @@ terpiece: /opt/homebrew/lib/libglfw.3.4.dylib
 terpiece: _deps/glm-build/glm/libglm.a
 terpiece: /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/OpenGL.framework
 terpiece: CMakeFiles/terpiece.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Linking CXX executable terpiece"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Linking CXX executable terpiece"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/terpiece.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

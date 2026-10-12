@@ -92,10 +92,11 @@ public:
     // drawImage(otherCanvas, 0, 0) for a canvas of the same size: copies its pixels (used by the minimap)
     void copyFrom(const Canvas2D& o);
 
-    // straight-alpha RGBA8 pixels, rows top to bottom
-    std::vector<uint8_t> pixels() const;
-    // upload into a texture (linear encoding like CanvasTexture)
-    void upload(Texture& t, bool nearest = false) const;
+    // upload into a texture (linear encoding like CanvasTexture); mipmaps = false for things drawn 1:1 on screen
+    void upload(Texture& t, bool nearest = false, bool mipmaps = true) const;
+    // the raw premultiplied pixels, rows top to bottom (v = 0 at the top), no copy: for full-screen
+    // overlays drawn with premultiplied blending (GL_ONE, GL_ONE_MINUS_SRC_ALPHA)
+    void uploadPremultiplied(Texture& t) const;
 
 private:
     void textOp(const std::string& utf8, float x, float y, bool fill);

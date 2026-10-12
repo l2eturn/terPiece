@@ -34,9 +34,19 @@ public:
     std::vector<GeometryGroup> groups;
     std::vector<ExtraAttribute> extra;
 
-    bool indexed() const { return !index.empty(); }
+    // Rewritten every frame (particles, a waving flag): keeps its arrays and floats on the GPU.
+    // Everything else is packed (bytes for normals / colours, 16-bit indices) and its CPU arrays are
+    // freed after the first upload — so set this before the geometry is first drawn.
+    bool dynamic = false;
+
+    bool indexed() const { return released_ ? indexCount_ > 0 : !index.empty(); }
     // number of elements a full draw covers (indices, or vertices when not indexed)
-    uint32_t drawCount() const { return indexed() ? (uint32_t)index.size() : (uint32_t)position.size(); }
+    uint32_t drawCount() const {
+        if (released_) return indexCount_ > 0 ? indexCount_ : vertexCount_;
+        return indexed() ? (uint32_t)index.size() : (uint32_t)position.size();
+    }
+    // the CPU arrays were dropped after upload (static geometry)
+    bool released() const { return released_; }
 
     // ---------- editing (all return *this like three.js) ----------
     Geometry& applyMatrix(const glm::mat4& m);
@@ -70,6 +80,9 @@ private:
     GLuint vbo_[4 + 4] = {};
     bool dirty_ = true;
     bool boundsValid_ = false;
+    // what was uploaded (still known after the arrays are released)
+    bool released_ = false, index16_ = false, hasNormal_ = false, hasUv_ = false, hasColor_ = false, hasExtra_ = false;
+    uint32_t vertexCount_ = 0, indexCount_ = 0;
 };
 using GeoPtr = std::shared_ptr<Geometry>;
 

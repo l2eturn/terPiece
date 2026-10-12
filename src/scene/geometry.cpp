@@ -1,4 +1,6 @@
 #include "scene/geometry.h"
+#include <algorithm>
+#include <cmath>
 #include <cstddef>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -109,6 +111,8 @@ ExtraAttribute* Geometry::attribute(const std::string& name) {
 }
 
 void Geometry::computeBounds() {
+    // released: the bounds were computed before the arrays went away
+    if (released_) return;
     if (position.empty()) {
         bbMin = bbMax = sphereCenter = glm::vec3(0);
         sphereRadius = 0;
@@ -143,53 +147,98 @@ void Geometry::upload() {
     }
     if (!boundsValid_) computeBounds();
     glBindVertexArray(vao_);
-    auto attr = [&](int loc, const void* data, size_t bytes, int comps) {
+    GLenum usage = dynamic ? GL_DYNAMIC_DRAW : GL_STATIC_DRAW;
+    // stride 0 = tightly packed comps; the byte formats pad each vertex to 4 bytes
+    auto attr = [&](int loc, const void* data, size_t bytes, int comps, GLenum type, bool normalized, int stride = 0) {
         if (!bytes) {
             glDisableVertexAttribArray(loc);
             return;
         }
         glBindBuffer(GL_ARRAY_BUFFER, vbo_[loc]);
-        glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)bytes, data, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)bytes, data, usage);
         glEnableVertexAttribArray(loc);
-        glVertexAttribPointer(loc, comps, GL_FLOAT, GL_FALSE, 0, nullptr);
+        glVertexAttribPointer(loc, comps, type, normalized ? GL_TRUE : GL_FALSE, stride, nullptr);
     };
-    attr(0, position.data(), position.size() * sizeof(glm::vec3), 3);
-    attr(1, normal.data(), normal.size() == position.size() ? normal.size() * sizeof(glm::vec3) : 0, 3);
-    attr(2, uv.data(), uv.size() == position.size() ? uv.size() * sizeof(glm::vec2) : 0, 2);
-    attr(3, color.data(), color.size() == position.size() ? color.size() * sizeof(glm::vec3) : 0, 3);
+    size_t n = position.size();
+    vertexCount_ = (uint32_t)n;
+    indexCount_ = (uint32_t)index.size();
+    hasNormal_ = normal.size() == n;
+    hasUv_ = uv.size() == n;
+    hasColor_ = color.size() == n;
+    hasExtra_ = !extra.empty();
+    attr(0, position.data(), n * sizeof(glm::vec3), 3, GL_FLOAT, false);
+    attr(2, uv.data(), hasUv_ ? n * sizeof(glm::vec2) : 0, 2, GL_FLOAT, false);
+    // static geometry: normals as signed bytes, colours as bytes when they stay within 0..1 (a quarter of the floats)
+    bool packColor = !dynamic && hasColor_;
+    for (size_t i = 0; packColor && i < n; ++i)
+        if (glm::any(glm::greaterThan(color[i], glm::vec3(1))) || glm::any(glm::lessThan(color[i], glm::vec3(0)))) packColor = false;
+    if (!dynamic && hasNormal_) {
+        std::vector<int8_t> p(n * 4, 0);
+        for (size_t i = 0; i < n; ++i)
+            for (int k = 0; k < 3; ++k) p[i * 4 + k] = (int8_t)std::lround(std::clamp(normal[i][k], -1.0f, 1.0f) * 127);
+        attr(1, p.data(), p.size(), 3, GL_BYTE, true, 4);
+    } else {
+        attr(1, normal.data(), hasNormal_ ? n * sizeof(glm::vec3) : 0, 3, GL_FLOAT, false);
+    }
+    if (packColor) {
+        std::vector<uint8_t> p(n * 4, 255);
+        for (size_t i = 0; i < n; ++i)
+            for (int k = 0; k < 3; ++k) p[i * 4 + k] = (uint8_t)std::lround(color[i][k] * 255);
+        attr(3, p.data(), p.size(), 3, GL_UNSIGNED_BYTE, true, 4);
+    } else {
+        attr(3, color.data(), hasColor_ ? n * sizeof(glm::vec3) : 0, 3, GL_FLOAT, false);
+    }
     // custom attributes live at locations 8.. (locations 4..7 are the instance matrix)
     for (size_t i = 0; i < 4; ++i) {
         GLuint loc = 8 + (GLuint)i;
         if (i < extra.size()) {
             glBindBuffer(GL_ARRAY_BUFFER, vbo_[4 + i]);
-            glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)(extra[i].data.size() * sizeof(float)), extra[i].data.data(), GL_DYNAMIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)(extra[i].data.size() * sizeof(float)), extra[i].data.data(), usage);
             glEnableVertexAttribArray(loc);
             glVertexAttribPointer(loc, extra[i].size, GL_FLOAT, GL_FALSE, 0, nullptr);
         } else {
             glDisableVertexAttribArray(loc);
         }
     }
+    // 16-bit indices whenever the vertices fit
+    index16_ = !dynamic && n <= 65536;
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)(index.size() * sizeof(uint32_t)), index.data(), GL_DYNAMIC_DRAW);
+    if (index16_) {
+        std::vector<uint16_t> p(index.begin(), index.end());
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)(p.size() * sizeof(uint16_t)), p.data(), usage);
+    } else {
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)(index.size() * sizeof(uint32_t)), index.data(), usage);
+    }
     dirty_ = false;
+    // the GPU has its own copy now
+    if (!dynamic) {
+        released_ = true;
+        std::vector<glm::vec3>().swap(position);
+        std::vector<glm::vec3>().swap(normal);
+        std::vector<glm::vec3>().swap(color);
+        std::vector<glm::vec2>().swap(uv);
+        std::vector<uint32_t>().swap(index);
+        std::vector<ExtraAttribute>().swap(extra);
+    }
 }
 
 void Geometry::bind() {
     if (dirty_ || !vao_) upload();
     glBindVertexArray(vao_);
     // missing attributes read these constants
-    if (normal.size() != position.size()) glVertexAttrib3f(1, 0, 1, 0);
-    if (uv.size() != position.size()) glVertexAttrib2f(2, 0, 0);
-    if (color.size() != position.size()) glVertexAttrib3f(3, 1, 1, 1);
-    if (extra.empty()) glVertexAttrib1f(8, 0);
+    if (!hasNormal_) glVertexAttrib3f(1, 0, 1, 0);
+    if (!hasUv_) glVertexAttrib2f(2, 0, 0);
+    if (!hasColor_) glVertexAttrib3f(3, 1, 1, 1);
+    if (!hasExtra_) glVertexAttrib1f(8, 0);
 }
 
 void Geometry::drawRange(GLenum mode, uint32_t start, uint32_t count, int instances) {
     if (!count) return;
     if (indexed()) {
-        const void* off = (const void*)(uintptr_t)(start * sizeof(uint32_t));
-        if (instances > 0) glDrawElementsInstanced(mode, (GLsizei)count, GL_UNSIGNED_INT, off, instances);
-        else glDrawElements(mode, (GLsizei)count, GL_UNSIGNED_INT, off);
+        GLenum type = index16_ ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT;
+        const void* off = (const void*)(uintptr_t)(start * (index16_ ? sizeof(uint16_t) : sizeof(uint32_t)));
+        if (instances > 0) glDrawElementsInstanced(mode, (GLsizei)count, type, off, instances);
+        else glDrawElements(mode, (GLsizei)count, type, off);
     } else {
         if (instances > 0) glDrawArraysInstanced(mode, (GLint)start, (GLsizei)count, instances);
         else glDrawArrays(mode, (GLint)start, (GLsizei)count);

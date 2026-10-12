@@ -33,6 +33,8 @@ public:
     void populate(World& world, float waterY, const std::vector<glm::vec3>& avoid);
 
     void update(float t, float dt, World& world, glm::vec3 playerPos);
+    // drop the source models once the world is built (sized copies stay cached; has() reloads a source on demand)
+    void releaseSources() { base_.clear(); }
 
     // ---------- riding (pony in the town / alpaca in the snow village) ----------
     struct Ride {
@@ -65,6 +67,16 @@ public:
     // bare animal model without AI (for other players' mounts)
     ObjPtr animalModel(const std::string& kind);
 
+    // head / body / feet model of an animal or monster kind (g = root, rig = bobbing body, legs swing)
+    struct AnimalModel {
+        ObjPtr g, rig, head;
+        std::vector<ObjPtr> legs;
+        float height, seatY, bodyD;
+    };
+    // true when every part of that kind is in the asset folder
+    bool hasAnimal(const std::string& kind);
+    AnimalModel buildAnimal(const std::string& kind);
+
     // a flickering voxel fire with its own point light
     static ObjPtr createFire(glm::vec3 p);
 
@@ -77,12 +89,6 @@ private:
     void placeProps(World& world, PerWorld& pw, float waterY, std::vector<struct Placed>& placed);
     void createHerds(World& world, PerWorld& pw, const std::vector<glm::vec3>& blocked);
     void furnish(World& world, PerWorld& pw, glm::vec3 floor, float rot);
-    struct AnimalModel {
-        ObjPtr g, rig, head;
-        std::vector<ObjPtr> legs;
-        float height, seatY, bodyD;
-    };
-    AnimalModel buildAnimal(const std::string& kind);
 
     bool ok_ = false;
     std::string dir_;

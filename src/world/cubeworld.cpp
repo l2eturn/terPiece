@@ -125,6 +125,13 @@ const std::map<std::string, AnimalSpec>& animals() {
         // rideable (walk / run speed and jump while ridden)
         {"pony", {0.055f, "pony-body", "pony-head", "pony-foot", "", "pony-tail", false, 0.7f, true, {5.5f, 10, 8}}},
         {"alpaca", {0.06f, "alpaca-body", "alpaca-head", "alpaca-foot", "alpaca-hand", "", false, 0.6f, true, {5, 8.5f, 8.5f}}},
+        // monsters of the wilds (game/combat.cpp)
+        {"wolf", {0.05f, "wolf-body", "wolf-head", "wolf-foot", "wolf-hand", "wolf-tail", false, 1.0f}},
+        {"gnoll", {0.05f, "gnoll-body", "gnoll-head", "gnoll-foot", "gnoll-hand", "", true, 0.8f}},
+        {"polar-gnoll", {0.05f, "polar-gnoll-body", "polar-gnoll-head", "polar-gnoll-foot", "polar-gnoll-hand", "", true, 0.8f}},
+        {"skeleton", {0.05f, "skeleton-body", "skeleton-head", "skeleton-foot", "skeleton-hand", "", true, 0.8f}},
+        {"bat", {0.04f, "bat-body", "bat-head", "bat-foot", "bat-hand", "", true, 1.0f}},
+        {"ogre", {0.09f, "ogre-body", "ogre-head", "ogre-foot", "ogre-hand", "", true, 0.6f}},
     };
     return A;
 }
@@ -672,9 +679,17 @@ CubeWorld::AnimalModel CubeWorld::buildAnimal(const std::string& kind) {
 }
 
 ObjPtr CubeWorld::animalModel(const std::string& kind) {
-    auto it = animals().find(kind);
-    if (it == animals().end() || !has(it->second.body) || !has(it->second.head) || !has(it->second.foot)) return nullptr;
+    if (!hasAnimal(kind)) return nullptr;
     return buildAnimal(kind).g;
+}
+
+bool CubeWorld::hasAnimal(const std::string& kind) {
+    auto it = animals().find(kind);
+    if (!ok_ || it == animals().end()) return false;
+    const AnimalSpec& a = it->second;
+    for (auto* n : {&a.body, &a.head, &a.foot, &a.hand, &a.tail})
+        if (!n->empty() && !has(*n)) return false;
+    return true;
 }
 
 void CubeWorld::createHerds(World& world, PerWorld& pw, const std::vector<glm::vec3>& blocked) {

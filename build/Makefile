@@ -335,6 +335,30 @@ src/game/berries.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/terpiece.dir/build.make CMakeFiles/terpiece.dir/src/game/berries.cpp.s
 .PHONY : src/game/berries.cpp.s
 
+src/game/combat.o: src/game/combat.cpp.o
+.PHONY : src/game/combat.o
+
+# target to build an object file
+src/game/combat.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/terpiece.dir/build.make CMakeFiles/terpiece.dir/src/game/combat.cpp.o
+.PHONY : src/game/combat.cpp.o
+
+src/game/combat.i: src/game/combat.cpp.i
+.PHONY : src/game/combat.i
+
+# target to preprocess a source file
+src/game/combat.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/terpiece.dir/build.make CMakeFiles/terpiece.dir/src/game/combat.cpp.i
+.PHONY : src/game/combat.cpp.i
+
+src/game/combat.s: src/game/combat.cpp.s
+.PHONY : src/game/combat.s
+
+# target to generate assembly for a file
+src/game/combat.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/terpiece.dir/build.make CMakeFiles/terpiece.dir/src/game/combat.cpp.s
+.PHONY : src/game/combat.cpp.s
+
 src/game/effects.o: src/game/effects.cpp.o
 .PHONY : src/game/effects.o
 
@@ -855,6 +879,30 @@ src/world/overworld.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/terpiece.dir/build.make CMakeFiles/terpiece.dir/src/world/overworld.cpp.s
 .PHONY : src/world/overworld.cpp.s
 
+src/world/terrain.o: src/world/terrain.cpp.o
+.PHONY : src/world/terrain.o
+
+# target to build an object file
+src/world/terrain.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/terpiece.dir/build.make CMakeFiles/terpiece.dir/src/world/terrain.cpp.o
+.PHONY : src/world/terrain.cpp.o
+
+src/world/terrain.i: src/world/terrain.cpp.i
+.PHONY : src/world/terrain.i
+
+# target to preprocess a source file
+src/world/terrain.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/terpiece.dir/build.make CMakeFiles/terpiece.dir/src/world/terrain.cpp.i
+.PHONY : src/world/terrain.cpp.i
+
+src/world/terrain.s: src/world/terrain.cpp.s
+.PHONY : src/world/terrain.s
+
+# target to generate assembly for a file
+src/world/terrain.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/terpiece.dir/build.make CMakeFiles/terpiece.dir/src/world/terrain.cpp.s
+.PHONY : src/world/terrain.cpp.s
+
 src/world/winter.o: src/world/winter.cpp.o
 .PHONY : src/world/winter.o
 
@@ -937,6 +985,9 @@ help:
 	@echo "... src/game/berries.o"
 	@echo "... src/game/berries.i"
 	@echo "... src/game/berries.s"
+	@echo "... src/game/combat.o"
+	@echo "... src/game/combat.i"
+	@echo "... src/game/combat.s"
 	@echo "... src/game/effects.o"
 	@echo "... src/game/effects.i"
 	@echo "... src/game/effects.s"
@@ -1002,6 +1053,9 @@ help:
 	@echo "... src/world/overworld.o"
 	@echo "... src/world/overworld.i"
 	@echo "... src/world/overworld.s"
+	@echo "... src/world/terrain.o"
+	@echo "... src/world/terrain.i"
+	@echo "... src/world/terrain.s"
 	@echo "... src/world/winter.o"
 	@echo "... src/world/winter.i"
 	@echo "... src/world/winter.s"

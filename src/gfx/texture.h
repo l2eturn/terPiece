@@ -15,6 +15,8 @@ struct TextureOptions {
     bool repeat = true;
     // three.js flipY: canvas / image row 0 ends up at v = 1. glTF textures use flipY = false.
     bool flipY = true;
+    // halve larger images until both sides fit (0 = keep the full size)
+    int maxSize = 0;
 };
 
 class Texture {
@@ -26,6 +28,8 @@ public:
 
     // rgba = w*h*4 bytes, rows top to bottom (like a canvas)
     void upload(int w, int h, const std::vector<uint8_t>& rgba, const TextureOptions& o = {});
+    // same, from raw pixels; re-uploading the same size and options reuses the GPU storage
+    void upload(int w, int h, const uint8_t* rgba, const TextureOptions& o = {});
     void bind(int unit = 0) const;
     int width() const { return w_; }
     int height() const { return h_; }
@@ -37,6 +41,9 @@ public:
 private:
     GLuint id_ = 0;
     int w_ = 0, h_ = 0;
+    // what the GPU storage was allocated as (to reuse it)
+    GLenum format_ = 0;
+    bool mipmaps_ = false;
 };
 
 // Image decoding (ImageIO on macOS) into straight-alpha RGBA8, rows top to bottom.

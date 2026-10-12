@@ -16,6 +16,7 @@
 #include "audio/audio.h"
 #include "core/math.h"
 #include "game/berries.h"
+#include "game/combat.h"
 #include "game/config.h"
 #include "game/effects.h"
 #include "game/home.h"
@@ -159,6 +160,8 @@ struct Game::Impl {
     ObjPtr zzz;
     std::unique_ptr<Minimap> minimap;
     std::unique_ptr<Multiplayer> net;
+    // monsters and the sword (the wilds only)
+    std::unique_ptr<Combat> combat;
 
     // riding: which area's herd the animal belongs to (its coordinates are that area's)
     std::string rideArea;
@@ -183,6 +186,9 @@ struct Game::Impl {
     glm::vec3 camTarget{0}, camPos{0};
     bool dragging = false, dragOnUi = false;
     double lastMx = 0, lastMy = 0;
+    // a short click (not a drag) on the 3D view = attack; where / when the press started
+    double pressMx = 0, pressMy = 0, pressAt = 0;
+    bool rightWasDown = false, padRT = false, padLT = false;
 
     float elapsed = 0;
     // setTimeout replacement
@@ -239,6 +245,10 @@ struct Game::Impl {
     void checkFindPets(float t);
     void updateBerryHUD() { hs.berries = settings.berries; }
     void throwCherry();
+    void buildCombat();
+    void dodge(glm::vec2 move);
+    // the player can swing and be hit: on foot, awake, not in a fade
+    bool canFight() { return started && mode == "play" && !boating && !sleeping && !isRiding(); }
     void onCourseComplete(const std::string& id, glm::vec3 pos);
     void birdSay(const std::string& key, const std::string& text, float delay = 0);
     void companionSay(const std::string& text);
@@ -266,6 +276,9 @@ bool Game::Impl::openWindow() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+    // the 3D view has its own depth buffer (renderer.cpp); the window only gets the finished image + HUD
+    glfwWindowHint(GLFW_DEPTH_BITS, 0);
+    glfwWindowHint(GLFW_STENCIL_BITS, 0);
     win = glfwCreateWindow(1280, 800, "Ter's Realms", nullptr, nullptr);
     if (!win) return false;
     glfwMakeContextCurrent(win);
@@ -457,6 +470,9 @@ void Game::Impl::build() {
         cubeWorld().populate(*world, layout::WATER_Y, avoidX);
         std::printf("Cube World placed in %.0f ms\n", (glfwGetTime() - t0) * 1000);
     }
+    // after Cube World so the monsters can use its voxel models
+    buildCombat();
+    if (cubeWorld().available()) cubeWorld().releaseSources();
 
     player->onStep = [this](glm::vec3 p, float yaw) {
         // footprints in the snow (the village and the snowy end of the valley)
@@ -693,6 +709,60 @@ void Game::Impl::birdSay(const std::string& key, const std::string& text, float 
     if (b && b->found()) later(delay, [this, b, text] { b->say(text, elapsed, 3); });
 }
 
+// ---------------------------------------------------------------------------
+// combat: monsters of the wilds (game/combat.cpp)
+// ---------------------------------------------------------------------------
+void Game::Impl::buildCombat() {
+    combat = std::make_unique<Combat>(*world, *player, settings.level, settings.xp);
+    combat->onSwing = [this] { audio.swing(); };
+    combat->onHit = [this](glm::vec3, bool crit) { audio.hit(crit); };
+    combat->onHurt = [this](float) {
+        audio.hurt();
+        hud.hurt(elapsed);
+    };
+    combat->onKill = [this](const std::string&, glm::vec3 p, glm::vec3 color) {
+        audio.slay();
+        fireworks->burst(p, color, 45);
+        // monsters sometimes drop berries
+        if (frand() < 0.4f) {
+            settings.berries += 1 + (frand() < 0.3f);
+            persist();
+            updateBerryHUD();
+            hud.bumpBerry(elapsed);
+        }
+    };
+    combat->onProgress = [this] {
+        settings.level = combat->level;
+        settings.xp = combat->xp;
+        persist();
+    };
+    combat->onLevelUp = [this](int lv) {
+        audio.levelUp();
+        hud.floatHearts(8, elapsed);
+        fireworks->burst(player->position + glm::vec3(0, 1.2f, 0), glm::vec3(1, 0.85f, 0.4f), 80);
+        companionSay("เลเวลอัป! Lv " + std::to_string(lv) + " ✨");
+    };
+    combat->onDeath = [this] {
+        // wake up in whichever town is closer, at full health
+        bool south = player->position.z > 128;
+        glm::vec3 spawn = south ? global("medieval", medieval::SPAWN) : winter::SPAWN;
+        float facing = south ? world->yawToGlobal("medieval", PI) : PI;
+        if (boating) boating = false;
+        warpTo(spawn, facing);
+        later(0.75f, [this] {
+            combat->revive();
+            companionSay(pick({"ไม่เป็นไรนะ พักก่อน~", "เจ็บมั้ย? กลับมาตั้งหลักก่อน", "เกือบไปแล้ว!"}));
+        });
+    };
+}
+
+void Game::Impl::dodge(glm::vec2 move) {
+    if (!canFight()) return;
+    // camera-relative like walking
+    float s = std::sin(camYaw), c = std::cos(camYaw);
+    combat->roll({move.x * c + move.y * s, -move.x * s + move.y * c});
+}
+
 void Game::Impl::companionSay(const std::string& text) {
     for (auto& p : pets)
         if (p->found() && p->key != "puppy") {
@@ -874,6 +944,8 @@ void Game::Impl::handleUi(const std::string& id) {
         settings.found.clear();
         settings.stars.clear();
         settings.berries = 0;
+        settings.level = 1;
+        settings.xp = 0;
         persist();
         reload = true;
     } else if (id == "realm") {
@@ -1003,6 +1075,13 @@ void Game::Impl::tick(float dt, float t) {
     for (auto& b : boats) b->update(t, dt, boating && b.get() == boat ? move : glm::vec2(0), camYaw, *world);
     if (boating) player->ride(boat->seat(), boat->heading());
     if (started && gliderPickup->update(t, *player)) gotGlider();
+    combat->update(t, dt, canFight(), settings.time == "night");
+    hs.hp = combat->hp;
+    hs.maxHp = combat->maxHp;
+    hs.level = combat->level;
+    hs.xpK = (float)combat->xp / combat->xpNext();
+    hs.specialK = combat->specialReady();
+    hs.combat = area == "wilds" || combat->hp < combat->maxHp - 0.5f;
 
     // which area are we in now
     std::string a = world->areaAt(player->position.x, player->position.z);
@@ -1179,8 +1258,8 @@ int Game::run() {
 
     const bool scripted = !g.opt.shotPath.empty();
     auto autoKey = [&](char k) { return g.opt.autoKeys.find(k) != std::string::npos; };
-    double last = glfwGetTime(), startTime = last, autoJumpAt = 0;
-    bool autoGlided = false, autoJet = false, autoRide = false;
+    double last = glfwGetTime(), startTime = last, autoJumpAt = 0, autoAttackAt = 0;
+    bool autoGlided = false, autoJet = false, autoRide = false, autoSpin = false;
     int shotFrames = 0;
 
     while (!glfwWindowShouldClose(g.win) && !g.reload) {
@@ -1207,7 +1286,9 @@ int Game::run() {
             }
             if (g_keyEvent == GLFW_KEY_ENTER || g_keyEvent == GLFW_KEY_KP_ENTER) g.submitCode();
             // swallow the key edges so they do not trigger game actions
-            for (int k : {GLFW_KEY_ESCAPE, GLFW_KEY_E, GLFW_KEY_F, GLFW_KEY_U, GLFW_KEY_Y, GLFW_KEY_SPACE, GLFW_KEY_T, GLFW_KEY_R}) g.input.pressed(k);
+            for (int k : {GLFW_KEY_ESCAPE, GLFW_KEY_E, GLFW_KEY_F, GLFW_KEY_U, GLFW_KEY_Y, GLFW_KEY_SPACE, GLFW_KEY_T, GLFW_KEY_R, GLFW_KEY_J, GLFW_KEY_K,
+                          GLFW_KEY_Q, GLFW_KEY_LEFT_CONTROL})
+                g.input.pressed(k);
         } else {
             // Esc closes the settings panel
             if (g.input.pressed(GLFW_KEY_ESCAPE)) g.hs.settingsOpen = false;
@@ -1226,6 +1307,11 @@ int Game::run() {
             }
             if (g.input.pressed(GLFW_KEY_E) && en) g.interact();
             if (g.input.pressed(GLFW_KEY_F) && en) g.throwCherry();
+            // combat: J attack · K spin · Q / Ctrl dodge roll
+            if (g.input.pressed(GLFW_KEY_J) && en && g.canFight()) g.combat->attack();
+            if (g.input.pressed(GLFW_KEY_K) && en && g.canFight()) g.combat->special();
+            bool ctrl = g.input.pressed(GLFW_KEY_LEFT_CONTROL);
+            if ((g.input.pressed(GLFW_KEY_Q) || ctrl) && en) g.dodge(g.input.move());
             // desktop extras: T cycles the time of day, R reloads shaders
             if (g.input.pressed(GLFW_KEY_T) && en) g.setTime(g.settings.time == "day" ? "dusk" : g.settings.time == "dusk" ? "night" : "day");
             if (g.input.pressed(GLFW_KEY_R)) {
@@ -1249,6 +1335,13 @@ int Game::run() {
                 g.audio.chime();
             }
             if (g.input.padPressed(GLFW_GAMEPAD_BUTTON_START)) g.hs.settingsOpen = !g.hs.settingsOpen;
+            // combat: RT attack · LT spin · LB dodge roll
+            bool rt = g.input.pad.axes[GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER] > 0.4f, lt = g.input.pad.axes[GLFW_GAMEPAD_AXIS_LEFT_TRIGGER] > 0.4f;
+            if (rt && !g.padRT && en && g.canFight()) g.combat->attack();
+            if (lt && !g.padLT && en && g.canFight()) g.combat->special();
+            g.padRT = rt;
+            g.padLT = lt;
+            if (g.input.padPressed(GLFW_GAMEPAD_BUTTON_LEFT_BUMPER) && en) g.dodge(g.input.move());
             // the right stick turns the camera like dragging the mouse
             float rx = Input::dead(g.input.pad.axes[GLFW_GAMEPAD_AXIS_RIGHT_X]), ry = Input::dead(g.input.pad.axes[GLFW_GAMEPAD_AXIS_RIGHT_Y]);
             if (en) {
@@ -1267,6 +1360,15 @@ int Game::run() {
         if (autoKey('e') && !autoRide && now - startTime > 0.3) {
             g.interact();
             autoRide = true;
+        }
+        // a = keep swinging, k = one spin attack
+        if (autoKey('a') && now >= autoAttackAt && g.canFight()) {
+            g.combat->attack();
+            autoAttackAt = now + 0.2;
+        }
+        if (autoKey('k') && !autoSpin && now - startTime > 0.5) {
+            g.combat->special();
+            autoSpin = true;
         }
         if (autoKey('j') && now >= autoJumpAt) {
             g.player->jump();
@@ -1288,7 +1390,18 @@ int Game::run() {
         if (down && !g.dragging) {
             g.dragOnUi = g.hud.overUi((float)mx, (float)my);
             if (g.dragOnUi) g.handleUi(g.hud.click((float)mx, (float)my));
+            g.pressMx = mx;
+            g.pressMy = my;
+            g.pressAt = now;
         }
+        // released without dragging the camera: swing the sword
+        if (!down && g.dragging && !g.dragOnUi && g.input.enabled && g.canFight() && std::hypot(mx - g.pressMx, my - g.pressMy) < 6 &&
+            now - g.pressAt < 0.35)
+            g.combat->attack();
+        // right click: spin attack
+        bool right = glfwGetMouseButton(g.win, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
+        if (right && !g.rightWasDown && g.input.enabled && g.canFight() && !g.hud.overUi((float)mx, (float)my)) g.combat->special();
+        g.rightWasDown = right;
         std::string dragId = g.hud.drag((float)mx, (float)my, down);
         if (!dragId.empty()) {
             float v = std::stof(dragId.substr(dragId.find('=') + 1));
@@ -1339,9 +1452,10 @@ int Game::run() {
                 std::fprintf(f, "P6\n%d %d\n255\n", fw, fh);
                 for (int y = fh - 1; y >= 0; --y) std::fwrite(&px[(size_t)y * fw * 3], 1, (size_t)fw * 3, f);
                 std::fclose(f);
-                std::printf("player at (%.2f, %.2f, %.2f) %s%s%s · area %s · saved %s\n", g.player->position.x, g.player->position.y,
-                            g.player->position.z, g.player->grounded ? "grounded" : "airborne", g.boating ? " · boating" : "",
-                            g.isRiding() ? " · riding" : "", g.area.c_str(), g.opt.shotPath.c_str());
+                std::printf("player at (%.2f, %.2f, %.2f) %s%s%s · area %s · hp %.0f/%.0f lv %d xp %d kills %d · saved %s\n",
+                            g.player->position.x, g.player->position.y, g.player->position.z, g.player->grounded ? "grounded" : "airborne",
+                            g.boating ? " · boating" : "", g.isRiding() ? " · riding" : "", g.area.c_str(), g.combat->hp, g.combat->maxHp,
+                            g.combat->level, g.combat->xp, g.combat->kills, g.opt.shotPath.c_str());
             }
             glfwSetWindowShouldClose(g.win, 1);
         }

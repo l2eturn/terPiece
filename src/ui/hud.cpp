@@ -43,7 +43,9 @@ struct Heart {
 
 struct Hud::Impl {
     std::unique_ptr<Canvas2D> canvas;
-    std::shared_ptr<Texture> tex;
+    // two textures used in turn: rewriting the one the GPU may still be drawing would stall the frame
+    std::shared_ptr<Texture> texs[2];
+    int texFront = 0;
     std::shared_ptr<Texture> badge;
     float badgeScale = 0;
     Shader overlay;
@@ -54,7 +56,7 @@ struct Hud::Impl {
     float scale = 2;
     float W = 0, H = 0;
     // animations (start times; < 0 = off)
-    float zoneAt = -10, berryShakeAt = -10, berryBumpAt = -10, codeShakeAt = -10, flashAt = -10;
+    float zoneAt = -10, berryShakeAt = -10, berryBumpAt = -10, codeShakeAt = -10, flashAt = -10, hurtAt = -10;
     std::vector<Heart> hearts;
     float promptAlpha = 0;
     std::string promptText;
@@ -271,7 +273,7 @@ bool Hud::init() {
     if (!d->overlay.load("overlay")) return false;
     glGenVertexArrays(1, &d->vao);
     d->canvas = std::make_unique<Canvas2D>(16, 16);
-    d->tex = std::make_shared<Texture>();
+    for (auto& t : d->texs) t = std::make_shared<Texture>();
     return true;
 }
 
@@ -281,6 +283,7 @@ void Hud::bumpBerry(float t) { d->berryBumpAt = t; }
 void Hud::shakeCode(float t) { d->codeShakeAt = t; }
 void Hud::setFade(bool on) { fadeGoal_ = on ? 1.0f : 0.0f; }
 void Hud::flash(float t) { d->flashAt = t; }
+void Hud::hurt(float t) { d->hurtAt = t; }
 
 void Hud::floatHearts(int n, float t) {
     static const char* emojis[6] = {"💖", "💕", "❄️", "✨", "💗", "🎄"};
@@ -458,6 +461,49 @@ void Hud::Impl::drawHud(const HudState& s, float t) {
         text(n, r.x + 14 + 16 + 10, cy, SANS, 20, 600, CREAM);
         c.restore();
         region(r, "@panel");
+    }
+
+    // combat panel above the berry pill: level, health, xp, spin attack cooldown
+    if (s.combat) {
+        Rect r{22, H - 54 - 40 - 12 - 58, 250, 58};
+        panel(r);
+        region(r, "@panel");
+        float x = r.x + 14, y = r.y + 10;
+        text("Lv " + std::to_string(s.level), x, y + 9, SANS, 15, 700, GOLD);
+        char hpText[32];
+        std::snprintf(hpText, sizeof hpText, "%d / %d", (int)std::ceil(s.hp), (int)std::round(s.maxHp));
+        text(hpText, r.x + r.w - 14 - 34, y + 9, SANS, 11, 600, CREAM, TextAlign::Right);
+        // health, then xp underneath
+        float bw = r.x + r.w - 14 - 34 - x, by = y + 22;
+        auto bar = [&](float yy, float h, float k, bool hpBar) {
+            c.setFill(cssColor("rgba(0,0,0,0.35)"));
+            c.beginPath();
+            c.roundRect(x, yy, bw, h, h / 2);
+            c.fill();
+            if (k <= 0) return;
+            c.beginPath();
+            c.roundRect(x, yy, bw * std::min(1.0f, k), h, h / 2);
+            if (hpBar) {
+                c.fillLinearGradient(0, yy, 0, yy + h, {{0, cssColor("#ff8a8a")}, {1, cssColor("#c8203a")}});
+            } else {
+                c.setFill(GOLD);
+                c.fill();
+            }
+        };
+        bar(by, 10, std::clamp(s.hp / std::max(1.0f, s.maxHp), 0.0f, 1.0f), true);
+        bar(by + 15, 4, s.xpK, false);
+        // spin attack: a ring that fills up
+        float cx = r.x + r.w - 14 - 12, cy = r.y + r.h / 2;
+        c.setStroke(cssColor("rgba(0,0,0,0.35)"));
+        c.setLineWidth(3);
+        c.beginPath();
+        c.arc(cx, cy, 11, 0, PI * 2);
+        c.stroke();
+        c.setStroke(s.specialK >= 1 ? GOLD : withAlpha(CREAM, 0.6f));
+        c.beginPath();
+        c.arc(cx, cy, 11, -PI / 2, -PI / 2 + PI * 2 * s.specialK);
+        c.stroke();
+        text("✦", cx, cy, SANS, 11, 600, s.specialK >= 1 ? GOLD : withAlpha(CREAM, 0.5f), TextAlign::Center);
     }
 
     // minimap panel (the map texture itself is composited on top)
@@ -640,7 +686,8 @@ void Hud::draw(const HudState& s, int fbw, int fbh, float scale, float t, Minima
                      t - I.codeShakeAt < 0.5f || (I.promptAlpha > 0 && I.promptAlpha < 1) || s.codeOpen;
     std::ostringstream sig;
     sig << fbw << 'x' << fbh << s.mode << s.worldTag << s.realmIcon << s.realmText << s.zoneRegion << s.zoneName << s.zoneSub << s.time
-        << s.berries << s.prompt << s.mmLabel << s.playtime << s.fps << s.muted << s.settingsOpen << s.codeOpen << s.codeText << I.mx << ',' << I.my;
+        << s.berries << s.prompt << s.mmLabel << s.playtime << s.fps << s.muted << s.settingsOpen << s.combat << (int)std::ceil(s.hp) << (int)s.maxHp << s.level << (int)(s.xpK * 200)
+        << (int)(s.specialK * 60) << s.codeOpen << s.codeText << I.mx << ',' << I.my;
     if (s.settings)
         sig << s.settings->pixel << s.settings->tilt << s.settings->shadows << s.settings->snow << s.settings->camAvoid << s.settings->camTrack
             << s.settings->camSmooth;
@@ -655,7 +702,8 @@ void Hud::draw(const HudState& s, int fbw, int fbh, float scale, float t, Minima
         if (hudVisible) I.drawHud(s, t);
         I.drawHearts(t);
         I.canvas->restore();
-        I.canvas->upload(*I.tex);
+        I.texFront ^= 1;
+        I.canvas->uploadPremultiplied(*I.texs[I.texFront]);
     }
 
     // ---------- composite ----------
@@ -677,8 +725,10 @@ void Hud::draw(const HudState& s, int fbw, int fbh, float scale, float t, Minima
         if (tex) tex->bind(0);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     };
-    // the canvas texture is stored flipped (canvas row 0 at v = 1)
-    quad({0, 0, (float)fbw, (float)fbh}, I.tex.get(), {1, 1, 1, 1}, {0, 1, 1, 0});
+    // the HUD canvas is uploaded as is: premultiplied, top row first
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    quad({0, 0, (float)fbw, (float)fbh}, I.texs[I.texFront].get(), {1, 1, 1, 1}, {0, 0, 1, 1});
+    glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     if (hudVisible && minimap) {
         Rect m = I.minimapRect;
         quad({m.x * scale, m.y * scale, m.w * scale, m.h * scale}, &minimap->texture(), {1, 1, 1, 1}, {0, 1, 1, 0}, 6 * scale);
@@ -697,11 +747,14 @@ void Hud::draw(const HudState& s, int fbw, int fbh, float scale, float t, Minima
             b.setTextBaseline(TextBaseline::Middle);
             b.fillText("N", 10, 8.5f);
             if (!I.badge) I.badge = std::make_shared<Texture>();
-            b.upload(*I.badge);
+            b.upload(*I.badge, false, false);
         }
         quad({(m.x + m.w / 2 - 10) * scale, (m.y - 6) * scale, 20 * scale, 16 * scale}, I.badge.get(), {1, 1, 1, 1}, {0, 1, 1, 0});
     }
     if (fade_ > 0) quad({0, 0, (float)fbw, (float)fbh}, nullptr, {1, 248 / 255.f, 236 / 255.f, fade_});
+    // hit: red flash that fades
+    float hk = (t - I.hurtAt) / 0.4f;
+    if (hk >= 0 && hk < 1) quad({0, 0, (float)fbw, (float)fbh}, nullptr, {0.85f, 0.05f, 0.1f, 0.28f * (1 - hk)});
     float fk = (t - I.flashAt);
     if (fk >= 0 && fk < 0.48f) {
         float a = fk < 0.08f ? 0.8f * fk / 0.08f : 0.8f * (1 - (fk - 0.08f) / 0.4f);

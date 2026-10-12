@@ -21,6 +21,12 @@ public:
     void talk();
     void fanfare();
     void boom();
+    // combat (new — not in audio.js)
+    void swing();
+    void hit(bool crit);
+    void hurt();
+    void slay();
+    void levelUp();
 
 private:
     struct Impl;

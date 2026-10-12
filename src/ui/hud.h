@@ -29,6 +29,12 @@ struct HudState {
     bool muted = false;
     bool settingsOpen = false;
     const Settings* settings = nullptr;
+    // combat panel (shown in the wilds or while hurt)
+    bool combat = false;
+    float hp = 100, maxHp = 100;
+    int level = 1;
+    // xp towards the next level / spin attack cooldown, 0..1
+    float xpK = 0, specialK = 1;
     // secret code box (Y)
     bool codeOpen = false;
     std::string codeText;
@@ -53,6 +59,8 @@ public:
     void floatHearts(int n, float t);
     void shakeBerry(float t);
     void bumpBerry(float t);
+    // red flash at the screen edges when hit
+    void hurt(float t);
     void shakeCode(float t);
     void setFade(bool on);
     void flash(float t);

@@ -31,6 +31,12 @@
 },
 {
   "directory": "/Users/smarttapon/coding_prac/terPiece/build",
+  "command": "/usr/bin/c++ -DASSET_DIR=\\\"/Users/smarttapon/coding_prac/terPiece/assets\\\" -DGLFW_INCLUDE_NONE -DGL_SILENCE_DEPRECATION -DSHADER_DIR=\\\"/Users/smarttapon/coding_prac/terPiece/shaders\\\" -DWEB_DIR=\\\"/Users/smarttapon/coding_prac/terPiece/../patty-project/xmas-app/web\\\" -I/Users/smarttapon/coding_prac/terPiece/src -I/Users/smarttapon/coding_prac/cubeworld-mac/build/_deps/glm-src -I/Users/smarttapon/coding_prac/terPiece/build/_deps/json-src/include -isystem /Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-src -isystem /Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-src/src -isystem /Users/smarttapon/coding_prac/terPiece/build/_deps/miniaudio-src -isystem /opt/homebrew/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -Wall -Wextra -Wno-missing-field-initializers -o CMakeFiles/terpiece.dir/src/game/combat.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/game/combat.cpp",
+  "file": "/Users/smarttapon/coding_prac/terPiece/src/game/combat.cpp",
+  "output": "CMakeFiles/terpiece.dir/src/game/combat.cpp.o"
+},
+{
+  "directory": "/Users/smarttapon/coding_prac/terPiece/build",
   "command": "/usr/bin/c++ -DASSET_DIR=\\\"/Users/smarttapon/coding_prac/terPiece/assets\\\" -DGLFW_INCLUDE_NONE -DGL_SILENCE_DEPRECATION -DSHADER_DIR=\\\"/Users/smarttapon/coding_prac/terPiece/shaders\\\" -DWEB_DIR=\\\"/Users/smarttapon/coding_prac/terPiece/../patty-project/xmas-app/web\\\" -I/Users/smarttapon/coding_prac/terPiece/src -I/Users/smarttapon/coding_prac/cubeworld-mac/build/_deps/glm-src -I/Users/smarttapon/coding_prac/terPiece/build/_deps/json-src/include -isystem /Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-src -isystem /Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-src/src -isystem /Users/smarttapon/coding_prac/terPiece/build/_deps/miniaudio-src -isystem /opt/homebrew/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -Wall -Wextra -Wno-missing-field-initializers -o CMakeFiles/terpiece.dir/src/game/effects.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/game/effects.cpp",
   "file": "/Users/smarttapon/coding_prac/terPiece/src/game/effects.cpp",
   "output": "CMakeFiles/terpiece.dir/src/game/effects.cpp.o"
@@ -166,6 +172,12 @@
   "command": "/usr/bin/c++ -DASSET_DIR=\\\"/Users/smarttapon/coding_prac/terPiece/assets\\\" -DGLFW_INCLUDE_NONE -DGL_SILENCE_DEPRECATION -DSHADER_DIR=\\\"/Users/smarttapon/coding_prac/terPiece/shaders\\\" -DWEB_DIR=\\\"/Users/smarttapon/coding_prac/terPiece/../patty-project/xmas-app/web\\\" -I/Users/smarttapon/coding_prac/terPiece/src -I/Users/smarttapon/coding_prac/cubeworld-mac/build/_deps/glm-src -I/Users/smarttapon/coding_prac/terPiece/build/_deps/json-src/include -isystem /Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-src -isystem /Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-src/src -isystem /Users/smarttapon/coding_prac/terPiece/build/_deps/miniaudio-src -isystem /opt/homebrew/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -Wall -Wextra -Wno-missing-field-initializers -o CMakeFiles/terpiece.dir/src/world/overworld.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/world/overworld.cpp",
   "file": "/Users/smarttapon/coding_prac/terPiece/src/world/overworld.cpp",
   "output": "CMakeFiles/terpiece.dir/src/world/overworld.cpp.o"
+},
+{
+  "directory": "/Users/smarttapon/coding_prac/terPiece/build",
+  "command": "/usr/bin/c++ -DASSET_DIR=\\\"/Users/smarttapon/coding_prac/terPiece/assets\\\" -DGLFW_INCLUDE_NONE -DGL_SILENCE_DEPRECATION -DSHADER_DIR=\\\"/Users/smarttapon/coding_prac/terPiece/shaders\\\" -DWEB_DIR=\\\"/Users/smarttapon/coding_prac/terPiece/../patty-project/xmas-app/web\\\" -I/Users/smarttapon/coding_prac/terPiece/src -I/Users/smarttapon/coding_prac/cubeworld-mac/build/_deps/glm-src -I/Users/smarttapon/coding_prac/terPiece/build/_deps/json-src/include -isystem /Users/smarttapon/coding_prac/terPiece/build/_deps/cgltf-src -isystem /Users/smarttapon/coding_prac/terPiece/build/_deps/meshoptimizer-src/src -isystem /Users/smarttapon/coding_prac/terPiece/build/_deps/miniaudio-src -isystem /opt/homebrew/include -iframework /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks -O2 -g -DNDEBUG -std=gnu++20 -arch arm64 -Wall -Wextra -Wno-missing-field-initializers -o CMakeFiles/terpiece.dir/src/world/terrain.cpp.o -c /Users/smarttapon/coding_prac/terPiece/src/world/terrain.cpp",
+  "file": "/Users/smarttapon/coding_prac/terPiece/src/world/terrain.cpp",
+  "output": "CMakeFiles/terpiece.dir/src/world/terrain.cpp.o"
 },
 {
   "directory": "/Users/smarttapon/coding_prac/terPiece/build",

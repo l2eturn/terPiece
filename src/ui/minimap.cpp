@@ -266,7 +266,7 @@ void Minimap::draw(glm::vec3 player, float yaw, float camYaw, bool inCave, const
         c.arc(W / 2, W / 2, 60, 0, PI * 2);
         c.fill();
         arrow(W / 2, W / 2);
-        c.upload(*tex_);
+        c.upload(*tex_, false, false);
         return;
     }
     c.copyFrom(bg_);
@@ -293,5 +293,5 @@ void Minimap::draw(glm::vec3 player, float yaw, float camYaw, bool inCave, const
     c.closePath();
     c.fill();
     arrow(p.x, p.y);
-    c.upload(*tex_);
+    c.upload(*tex_, false, false);
 }

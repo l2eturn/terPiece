@@ -4,6 +4,7 @@
 #include "art/glow.h"
 #include "art/textures.h"
 #include "core/math.h"
+#include "world/layout.h"
 #include "world/world.h"
 
 namespace {
@@ -29,7 +30,9 @@ BerryBushes::BerryBushes(Object3D& scene, const World& world, const std::vector<
     scene.add(object);
     auto shineGeo = geo::sphere(0.025f, 4, 3);
     for (auto s : spots) {
-        float x = s.x, z = s.y, y = world.groundAt(x, z, 99);
+        float x = s.x, z = s.y;
+        // the bush is wider than a ground block: sit on the lowest column under it
+        float y = layout::footHeight([&](float a, float b) { return world.groundAt(a, b, 99); }, x, z, 0.45f);
         auto g = makeGroup();
         auto bush = makeMesh(bushGeo, bushMat);
         bush->scale = {1, 0.75f, 1};

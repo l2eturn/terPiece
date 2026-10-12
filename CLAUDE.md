@@ -9,12 +9,12 @@
 cmake -S . -B build && cmake --build build -j
 ./build/terpiece [--char patty|ter|momonga] [--time day|dusk|night] [--realm winter|medieval] [--pos x z] [--cam yaw pitch dist]
                  [--server host:port]
-./build/terpiece --shot out.ppm [--shot-delay s] [--auto wrjgue]   # บันทึกภาพแล้วออก (w เดิน r วิ่ง j กระโดด g ร่อน u jetpack e กด E)
+./build/terpiece --shot out.ppm [--shot-delay s] [--auto wrjgue]   # บันทึกภาพแล้วออก (w เดิน r วิ่ง j กระโดด g ร่อน u jetpack e กด E a ฟันรัว k ท่าหมุน)
 sips -s format png out.ppm --out out.png                                    # ดูภาพ
 python3 tools/gen_sprites.py                                                # ดึง sprite จาก pixelart.js ฝั่งเว็บ → src/art/sprite_data.inc
 ```
-จอย: ก้านซ้ายเดิน · ก้านขวากล้อง · A กระโดด · X ใช้งาน · B ปาเชอร์รี่ · Y jetpack · Start settings
-ปุ่ม: WASD เดิน · Shift วิ่ง · Space กระโดด / กลางอากาศ = ร่อน · U jetpack · E ใช้งาน (เรือ/ขี่/นอน/ทำอาหาร) · F ปาเชอร์รี่ · Y รหัสลับ · T ช่วงเวลา · Esc ปิด settings · ลากเมาส์หมุนกล้อง · scroll ซูม · R โหลด shader ใหม่
+จอย: ก้านซ้ายเดิน · ก้านขวากล้อง · A กระโดด · X ใช้งาน · B ปาเชอร์รี่ · Y jetpack · RT ฟัน · LT ท่าหมุน · LB กลิ้งหลบ · Start settings
+ปุ่ม: WASD เดิน · Shift วิ่ง · Space กระโดด / กลางอากาศ = ร่อน · U jetpack · E ใช้งาน (เรือ/ขี่/นอน/ทำอาหาร) · F ปาเชอร์รี่ · คลิกซ้าย/J ฟัน (คอมโบ 3 จังหวะ) · คลิกขวา/K ท่าหมุน · Q/Ctrl กลิ้งหลบ · Y รหัสลับ · T ช่วงเวลา · Esc ปิด settings · ลากเมาส์หมุนกล้อง · scroll ซูม · R โหลด shader ใหม่
 
 - **Multiplayer**: รัน `python3 server.py 8000` ใน `../patty-project/xmas-app` แล้ว `--server 127.0.0.1:8000` (หรือ env `TERPIECE_SERVER`) — โปรโตคอลเดียวกับเว็บ เห็นกันข้ามเว็บ/เดสก์ท็อปได้ · รองรับแค่ `ws://` (ngrok `https` ยังไม่ได้)
 - save อยู่ที่ `~/Library/Application Support/terPiece/` (key เดียวกับ localStorage ฝั่งเว็บ) · รัน `--shot` จะไม่เขียน save
@@ -27,8 +27,8 @@ python3 tools/gen_sprites.py                                                # �
 | `src/scene/` | three.js ย่อส่วน: `geometry` (generator r151 ตรงๆ + `worldUV` + extrude), `material`, `object` (Object3D/Mesh/InstancedMesh/Sprite/Points/PointLight + tag `cw`), `renderer` (เงา PCF, point light ≤16, fog, เรียงโปร่งแสง, MSAA → pixel 2× → tilt-shift/grade/sRGB), `gltf` (cgltf + meshopt + WebP, AnimationMixer) |
 | `src/gfx/` | `gl.h`, `shader` (+ `sharedShader()` สำหรับ ShaderMaterial), `texture` + `image.mm` (ImageIO อ่าน/เขียนรูป) |
 | `src/art/` | `textures` (= TEX), `sprites` (= buildSheet + SpriteActor), `glow` (= glowSprite), `canvas.h` |
-| `src/world/` | `world.h` (API ร่วม), `winter` (= world.js), `medieval` (= medieval.js), `cubeworld` (= cubeworld.js), `overworld` + `layout.h` (โลกเปิด: สองเมือง + The Wilds ถนน/แม่น้ำ — ของใหม่) |
-| `src/game/` | `game` (= main.js), `player`, `pets` (= entities.js), `berries`, `parkour`, `vehicles`, `effects`, `home` (ห้องคริสต์มาส), `save`, `config.h` (= config.js + ZONES/TIME_INFO) |
+| `src/world/` | `world.h` (API ร่วม), `winter` (= world.js), `medieval` (= medieval.js), `cubeworld` (= cubeworld.js), `overworld` + `layout.h` (โลกเปิด: สองเมือง + The Wilds ถนน/แม่น้ำ — ของใหม่), `terrain` (พื้นบล็อกแบบ Cube World ชิ้นเดียวทั้งโลก — ของใหม่) |
+| `src/game/` | `game` (= main.js), `player`, `pets` (= entities.js), `berries`, `combat` (ต่อสู้แบบ Cube World — ของใหม่), `parkour`, `vehicles`, `effects`, `home` (ห้องคริสต์มาส), `save`, `config.h` (= config.js + ZONES/TIME_INFO) |
 | `src/ui/` | `canvas2d.mm` (canvas 2D บน CoreText — ไทย/emoji), `hud` (= index.html + style.css), `minimap` |
 | `src/audio/`, `src/net/` | = audio.js (miniaudio) / net.js (WebSocket client เขียนเอง) |
 | `shaders/` | `mesh` (Basic/Lambert/Standard), `depth`, `sprite`, `post`, `tilt`, `overlay` + ShaderMaterial: `sky`, `stars`, `aurora`, `snow`, `fireworks`, `neon`, `fireparticles` |

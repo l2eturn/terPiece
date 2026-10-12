@@ -1,4 +1,5 @@
 #include "game/save.h"
+#include <algorithm>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
@@ -55,6 +56,8 @@ Settings load(const std::string& character) {
     s.found = j.value("found", s.found);
     s.stars = j.value("stars", s.stars);
     s.glider = j.value("glider", s.glider);
+    s.level = std::max(1, j.value("level", s.level));
+    s.xp = std::max(0, j.value("xp", s.xp));
     return s;
 }
 
@@ -62,7 +65,7 @@ void store(const std::string& character, const Settings& s) {
     json j = {{"realm", s.realm},       {"time", s.time},         {"pixel", s.pixel},         {"tilt", s.tilt},
               {"shadows", s.shadows},   {"snow", s.snow},         {"camAvoid", s.camAvoid},   {"camTrack", s.camTrack},
               {"camSmooth", s.camSmooth}, {"berries", s.berries}, {"found", s.found},         {"stars", s.stars},
-              {"glider", s.glider}};
+              {"glider", s.glider},     {"level", s.level},       {"xp", s.xp}};
     std::ofstream f(dir() / (saveKey(character) + ".json"));
     f << j.dump(2);
 }

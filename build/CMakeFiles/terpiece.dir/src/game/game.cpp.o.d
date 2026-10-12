@@ -1285,6 +1285,7 @@ CMakeFiles/terpiece.dir/src/game/game.cpp.o: \
   /Users/smarttapon/coding_prac/terPiece/src/art/canvas.h \
   /Users/smarttapon/coding_prac/terPiece/src/audio/audio.h \
   /Users/smarttapon/coding_prac/terPiece/src/game/berries.h \
+  /Users/smarttapon/coding_prac/terPiece/src/game/combat.h \
   /Users/smarttapon/coding_prac/terPiece/src/game/config.h \
   /Users/smarttapon/coding_prac/terPiece/src/game/effects.h \
   /Users/smarttapon/coding_prac/terPiece/src/game/home.h \

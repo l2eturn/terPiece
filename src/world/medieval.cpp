@@ -51,7 +51,8 @@ ObjPtr W(const GeoPtr& g, const MatPtr& m) { return makeMesh(geo::worldUV(g), m)
 
 namespace medieval {
 
-float heightAt(float x, float z) {
+// the smooth shape of the town in its own coordinates (heightAt() turns it into blocks)
+float rawHeight(float x, float z) {
     // moat: a ring of water around the castle walls (distance to the castle rectangle)
     float qx = std::abs(x - CASTLE.x) - CASTLE.w / 2, qz = std::abs(z - CASTLE.z) - CASTLE.d / 2;
     // raised castle base
@@ -82,9 +83,16 @@ float heightAt(float x, float z) {
     if (r > WORLD_R - 5) h += std::pow(r - (WORLD_R - 5), 1.4f) * 0.35f * (1 - open);
     if (open > 0) {
         glm::vec2 g = layout::medievalToGlobal({x, z});
-        h = glm::mix(h, layout::wildsHeight(g.x, g.y), open * smoothstep(WORLD_R - 10, WORLD_R, r));
+        h = glm::mix(h, layout::wildsRaw(g.x, g.y), open * smoothstep(WORLD_R - 10, WORLD_R, r));
     }
     return h;
+}
+
+float heightAt(float x, float z) {
+    // the block grid is global: snap there, then sample the town's shape at that column's centre
+    glm::vec2 g = layout::medievalToGlobal({x, z});
+    glm::vec2 l = layout::medievalToLocal(layout::cellCenter(g.x, g.y));
+    return layout::toBlocks(rawHeight(l.x, l.y));
 }
 
 }  // namespace medieval
@@ -124,7 +132,6 @@ struct MedievalWorld::Impl {
     Rng& rand() { return w.rand_; }
 
     void sky();
-    void ground();
     void moatAndBridge();
     void torch(float x, float y, float z, float facing = 0);
     void castle();
@@ -210,65 +217,6 @@ void MedievalWorld::Impl::sky() {
     w.env.shadowNormalBias = 0.03f;
     w.env.fogNear = 22;
     w.env.fogFar = 90;
-}
-
-// ---------- ground & streets (vertex colours: grass + cobbles + sand) ----------
-void MedievalWorld::Impl::ground() {
-    const float size = 180;
-    const int seg = 200;
-    auto g = geo::plane(size, size, seg, seg);
-    g->rotateX(-PI / 2);
-    // these tint the pixel grass texture — grass stays white (the texture's own colour)
-    const glm::vec3 grassC(1), cobbleC = hexc(0xb7b2c2), dirtC = hexc(0xd8b88a);
-    g->color.resize(g->position.size());
-    for (size_t i = 0; i < g->position.size(); ++i) {
-        float x = g->position[i].x, z = g->position[i].z;
-        g->position[i].y = heightAt(x, z);
-        float dp = distToPathsM(x, z);
-        float courtD = std::hypot(x, z - 8);
-        float archD = std::hypot(x - ARCHERY.x, z - ARCHERY.y);
-        glm::vec3 c;
-        if (courtD < 18) {
-            // paved town square
-            c = glm::mix(cobbleC, grassC, smoothstep(12, 18, courtD) * 0.7f);
-        } else if (archD < ARCHERY.z) {
-            // sandy training ground
-            c = dirtC;
-        } else if (dp < 2.8f) {
-            // cobbled road
-            c = glm::mix(grassC, cobbleC, (1 - smoothstep(1.0f, 2.8f, dp)) * 0.9f);
-        } else {
-            c = grassC;
-        }
-        float noise = std::sin(x * 1.7f) * std::cos(z * 1.9f) * 0.03f;
-        g->color[i] = c + glm::vec3(noise);
-    }
-    g->computeVertexNormals();
-    // world UVs -> 16 grass pixels per metre
-    for (size_t i = 0; i < g->position.size(); ++i) g->uv[i] = {g->position[i].x, g->position[i].z};
-    // drop the part of the square out in the valley (the wilds draw their own ground there)
-    std::vector<uint32_t> kept;
-    for (size_t i = 0; i + 2 < g->index.size(); i += 3) {
-        glm::vec3 c = (g->position[g->index[i]] + g->position[g->index[i + 1]] + g->position[g->index[i + 2]]) / 3.0f;
-        if (layout::corridor(c.x, c.z) > 0.5f && std::hypot(c.x, c.z) > WORLD_R + 2) continue;
-        kept.insert(kept.end(), {g->index[i], g->index[i + 1], g->index[i + 2]});
-    }
-    g->index = kept;
-    auto gm = lambert(tex::get("grass"));
-    gm->vertexColors = true;
-    auto groundMesh = makeMesh(g, gm);
-    groundMesh->receiveShadow = true;
-    add(groundMesh);
-
-    // real cobbles on the town square (not only a tint)
-    auto pc = geo::circle(14.5f, 40);
-    pc->rotateX(-PI / 2).translate(0, 0.03f, 8);
-    auto pm = lambert(tex::get("cobble"));
-    pm->polygonOffset = true;
-    pm->polygonOffsetFactor = -1;
-    auto plaza = makeMesh(geo::worldUV(pc), pm);
-    plaza->receiveShadow = true;
-    add(plaza);
 }
 
 void MedievalWorld::Impl::moatAndBridge() {
@@ -961,7 +909,7 @@ void MedievalWorld::Impl::trees() {
         pos.push_back({tx, tz, 0.85f + rand().f() * 0.4f});
     }
     for (auto& p : pos) {
-        float tx = p.x, tz = p.y, sc = p.z, ty = heightAt(tx, tz);
+        float tx = p.x, tz = p.y, sc = p.z, ty = layout::footHeight(heightAt, tx, tz, 0.9f * sc);
         auto tree = makeGroup("oak");
         auto trunk = makeMesh(trunkGeo, trunkMat);
         // three cartoon crowns
@@ -1055,7 +1003,7 @@ MedievalWorld::MedievalWorld() {
 void MedievalWorld::build() {
     Impl I(*this);
     I.sky();
-    I.ground();
+    // the ground is blocks now (world/terrain.cpp)
     I.moatAndBridge();
     I.castle();
     I.lake();
@@ -1127,6 +1075,17 @@ bool MedievalWorld::isFree(float x, float z, float r, bool ignoreTrees) const {
     resolveCollisions(p, r);
     skipTrees_ = false;
     return p.x == x && p.z == z;
+}
+
+Surface MedievalWorld::surfaceAt(float x, float z) const {
+    // the raised castle base
+    float qx = std::abs(x - CASTLE.x) - CASTLE.w / 2, qz = std::abs(z - CASTLE.z) - CASTLE.d / 2;
+    if (qx < 0 && qz < 0) return {Ground::Stone};
+    // paved town square and the cobbled roads
+    if (std::hypot(x, z - 8) < 14.5f || distToPathsM(x, z) < 1.8f) return {Ground::Cobble};
+    // sandy training ground
+    if (std::hypot(x - ARCHERY.x, z - ARCHERY.y) < ARCHERY.z) return {Ground::Dirt, hexc(0xd8b88a)};
+    return {Ground::Grass};
 }
 
 std::string MedievalWorld::zoneAt(float x, float z) const {

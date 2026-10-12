@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "57c63935-fe2c-4b3a-95cf-c7f5020a0764",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/Users/smarttapon/coding_prac/terPiece/.archify/architecture-terpiece-20261012-111737/candidate.json",
+  "output": "/Users/smarttapon/coding_prac/terPiece/.archify/architecture-terpiece-20261012-111737/terpiece.html",
+  "specification": {
+    "sha256": "835614303453c82b272686921cbf5b5b9150e3a2479f94aa7ec25a442587f345",
+    "bytes": 8703
+  },
+  "artifact": {
+    "sha256": "4447a65791632c414491ea7337ac42bd5d7819380c15c081d7e60ed18d716e90",
+    "bytes": 776314
+  }
+}

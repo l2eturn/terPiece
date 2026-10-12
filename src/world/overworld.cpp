@@ -5,6 +5,7 @@
 #include "art/textures.h"
 #include "world/cubeworld.h"
 #include "world/layout.h"
+#include "world/terrain.h"
 
 using namespace layout;
 
@@ -12,28 +13,10 @@ namespace {
 
 constexpr float WINTER_R = winter::WORLD_R;
 constexpr float MEDIEVAL_R = medieval::WORLD_R;
-// the wilds ground grid shares the snow village's grid (200 m / 240) so the seam has no cracks
-constexpr float GRID = 200.0f / 240;
 constexpr float X0 = -55, X1 = 55, Z0 = 60, Z1 = 192;
 
 ObjPtr W(const GeoPtr& g, const MatPtr& m) { return makeMesh(geo::worldUV(g), m); }
 MatPtr lam(const std::string& t, uint32_t color = 0xffffff) { return lambert(tex::get(t), hexc(color)); }
-
-// does the snow village's ground mesh cover this point? (same test the village uses when it crops)
-bool winterCovers(float x, float z) {
-    if (std::abs(x) > 100 || std::abs(z) > 100) return false;
-    return !(corridor(x, z) > 0.5f && std::hypot(x, z) > WINTER_R + 2);
-}
-// does the citadel's ground mesh cover this point, with some margin to spare
-bool medievalCoversDeep(float x, float z) {
-    for (float ox : {-1.2f, 1.2f})
-        for (float oz : {-1.2f, 1.2f}) {
-            glm::vec2 l = toLocal({x + ox, z + oz}, MEDIEVAL_OFFSET, MEDIEVAL_ROT);
-            if (std::abs(l.x) > 90 || std::abs(l.y) > 90) return false;
-            if (corridor(l.x, l.y) > 0.5f && std::hypot(l.x, l.y) > MEDIEVAL_R + 2) return false;
-        }
-    return true;
-}
 
 }  // namespace
 
@@ -84,6 +67,41 @@ std::string Overworld::areaAt(float x, float z) const {
     return "wilds";
 }
 
+std::string Overworld::groundAreaAt(float x, float z) const {
+    glm::vec2 c = cellCenter(x, z);
+    return areaAt(c.x, c.y);
+}
+
+float Overworld::terrainHeight(float x, float z) const {
+    std::string a = groundAreaAt(x, z);
+    if (a == "winter") return winter::heightAt(x, z);
+    if (a == "medieval") {
+        glm::vec2 l = medievalToLocal({x, z});
+        return medieval::heightAt(l.x, l.y);
+    }
+    return wildsHeight(x, z);
+}
+
+Surface Overworld::surfaceAt(float x, float z) const {
+    std::string a = groundAreaAt(x, z);
+    if (a == "winter") return winter_.surfaceAt(x, z);
+    if (a == "medieval") {
+        glm::vec2 l = medievalToLocal({x, z});
+        return medieval_.surfaceAt(l.x, l.y);
+    }
+    glm::vec2 c = cellCenter(x, z);
+    // snow gives way to grass along the valley in soft patches (a few metres across), ragged at the edges
+    float patches = 0.5f + 0.3f * std::sin(c.x * 0.31f + 1.7f) * std::cos(c.y * 0.27f) + 0.2f * std::sin((c.x - c.y) * 0.53f);
+    float n = std::sin(c.x * 12.9898f + c.y * 78.233f) * 43758.5453f;
+    float jitter = (n - std::floor(n) - 0.5f) * 0.15f;
+    bool grass = patches + jitter < southness(c.y) * 1.3f - 0.15f;
+    const Surface path{Ground::Snow, glm::mix(glm::vec3(1), hexc(0xa8968c), 0.8f)};
+    if (distToRoad(c.x, c.y) < 1.6f) return grass ? Surface{Ground::Cobble} : path;
+    // sandy river banks
+    if (riverDepthK(c.x, c.y) > 0.02f) return {Ground::Dirt, hexc(0xd8b88a)};
+    return {grass ? Ground::Grass : Ground::Snow};
+}
+
 Overworld::Area Overworld::area(const std::string& n) const {
     if (n == "medieval") return {&medieval_, MEDIEVAL_OFFSET, MEDIEVAL_ROT};
     if (n == "winter") return {&winter_, {0, 0}, 0};
@@ -112,7 +130,8 @@ float Overworld::southness(float z) const { return smoothstep(95, 165, z); }
 // ---------------------------------------------------------------------------
 
 float Overworld::groundAt(float x, float z, float y) const {
-    std::string a = areaAt(x, z);
+    // the column under the point decides (so the ground matches the blocks drawn)
+    std::string a = groundAreaAt(x, z);
     if (a == "winter") return winter_.groundAt(x, z, y);
     if (a == "medieval") {
         glm::vec3 l = toLocal(a, {x, 0, z});
@@ -182,10 +201,10 @@ void Overworld::resolveCollisions(glm::vec3& pos, float radius) const {
     }
 }
 
-bool Overworld::isIce(float x, float z) const { return areaAt(x, z) == "winter" && winter_.isIce(x, z); }
+bool Overworld::isIce(float x, float z) const { return groundAreaAt(x, z) == "winter" && winter_.isIce(x, z); }
 
 bool Overworld::isWater(float x, float z) const {
-    std::string a = areaAt(x, z);
+    std::string a = groundAreaAt(x, z);
     if (a == "winter") return false;
     if (a == "medieval") {
         glm::vec3 l = toLocal(a, {x, 0, z});
@@ -280,65 +299,18 @@ void Overworld::update(float t, float dt, glm::vec3 focus) {
 // ---------------------------------------------------------------------------
 
 void Overworld::buildTerrain() {
-    auto g = std::make_shared<Geometry>();
-    int nx = (int)std::round((X1 - X0) / GRID), nz = (int)std::round((Z1 - Z0) / GRID);
-    // align the grid with the village's (-100 + k * GRID)
-    float gx0 = -100 + std::round((X0 + 100) / GRID) * GRID, gz0 = -100 + std::round((Z0 + 100) / GRID) * GRID;
-    const glm::vec3 snowPath = hexc(0xa8968c), grassPath = hexc(0xb7b2c2), bank = hexc(0xd8b88a), rockC = hexc(0x8d8794);
-    ExtraAttribute blend{"blend", 1, {}};
-    auto height = [&](float x, float z) {
-        std::string a = areaAt(x, z);
-        if (a == "winter") return winter::heightAt(x, z);
-        if (a == "medieval") {
-            glm::vec2 l = layout::toLocal({x, z}, MEDIEVAL_OFFSET, MEDIEVAL_ROT);
-            return medieval::heightAt(l.x, l.y);
-        }
-        return wildsHeight(x, z);
+    // one block mesh for the village, the valley and the citadel together
+    TerrainSource src;
+    src.bounds = {-100, -100, 100, MEDIEVAL_OFFSET.y + 90};
+    src.inside = [](float x, float z) {
+        if (std::abs(x) <= 100 && std::abs(z) <= 100) return true;
+        glm::vec2 l = medievalToLocal({x, z});
+        if (std::abs(l.x) <= 90 && std::abs(l.y) <= 90) return true;
+        return x >= X0 && x <= X1 && z >= Z0 && z <= Z1;
     };
-    for (int j = 0; j <= nz; ++j)
-        for (int i = 0; i <= nx; ++i) {
-            float x = gx0 + i * GRID, z = gz0 + j * GRID;
-            g->position.push_back({x, height(x, z), z});
-            g->uv.push_back({x, z});
-            float s = southness(z);
-            blend.data.push_back(s);
-            // road tint (snowy path -> cobbles), sandy river banks
-            float road = 1 - smoothstep(0.6f, 2.2f, distToRoad(x, z));
-            glm::vec3 c = glm::mix(glm::vec3(1), glm::mix(snowPath, grassPath, s), road * glm::mix(0.8f, 0.9f, s));
-            float rk = riverDepthK(x, z);
-            float wet = smoothstep(0.0f, 0.3f, rk) * (1 - smoothstep(0.6f, 1.0f, rk));
-            c = glm::mix(c, bank, wet * 0.8f * s + wet * 0.3f * (1 - s));
-            float n = std::sin(x * 1.9f) * std::cos(z * 1.7f) * 0.025f;
-            g->color.push_back(c + glm::vec3(n));
-        }
-    g->extra.push_back(blend);
-    // same triangle pattern as PlaneGeometry: (a, b, d), (b, c, d)
-    auto idx = [&](int i, int j) { return (uint32_t)(j * (nx + 1) + i); };
-    for (int j = 0; j < nz; ++j)
-        for (int i = 0; i < nx; ++i) {
-            uint32_t a = idx(i, j), b = idx(i, j + 1), c = idx(i + 1, j + 1), d = idx(i + 1, j);
-            for (auto tri : {std::array<uint32_t, 3>{a, b, d}, std::array<uint32_t, 3>{b, c, d}}) {
-                glm::vec3 m = (g->position[tri[0]] + g->position[tri[1]] + g->position[tri[2]]) / 3.0f;
-                if (winterCovers(m.x, m.z) || medievalCoversDeep(m.x, m.z)) continue;
-                g->index.insert(g->index.end(), tri.begin(), tri.end());
-            }
-        }
-    g->computeVertexNormals();
-    // steep valley walls -> rock colour
-    for (size_t i = 0; i < g->position.size(); ++i) {
-        float k = 1 - smoothstep(0.55f, 0.8f, g->normal[i].y);
-        if (k > 0) g->color[i] = glm::mix(g->color[i], rockC, k);
-    }
-    auto m = lambert(tex::get("snow"));
-    m->map2 = tex::get("grass");
-    m->vertexColors = true;
-    // sits behind the towns' own ground where both overlap at the citadel seam
-    m->polygonOffset = true;
-    m->polygonOffsetFactor = 1;
-    m->polygonOffsetUnits = 2;
-    auto ground = makeMesh(g, m);
-    ground->receiveShadow = true;
-    addObject(ground);
+    src.height = [this](float x, float z) { return terrainHeight(x, z); };
+    src.surface = [this](float x, float z) { return surfaceAt(x, z); };
+    addObject(buildBlockTerrain(src));
 }
 
 void Overworld::buildRoad() {
@@ -496,7 +468,8 @@ void Overworld::buildForest() {
     auto trunkMat = lam("bark");
     int pi = 0;
     for (auto& s : spots) {
-        float y = wildsHeight(s.x, s.z);
+        // pines and oaks spread their roots: stand on the lowest column under them
+        float y = footHeight(wildsHeight, s.x, s.z, (s.pine ? 0.8f : 0.9f) * s.s);
         TreeRef ref;
         ref.x = s.x;
         ref.z = s.z;

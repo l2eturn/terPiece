@@ -149,12 +149,12 @@ _deps/json-build/clean:
 CMakeFiles/terpiece.dir/all: _deps/glm-build/glm/CMakeFiles/glm.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/terpiece.dir/build.make CMakeFiles/terpiece.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/terpiece.dir/build.make CMakeFiles/terpiece.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36 "Built target terpiece"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38 "Built target terpiece"
 .PHONY : CMakeFiles/terpiece.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/terpiece.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/smarttapon/coding_prac/terPiece/build/CMakeFiles 36
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/smarttapon/coding_prac/terPiece/build/CMakeFiles 38
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/terpiece.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/smarttapon/coding_prac/terPiece/build/CMakeFiles 0
 .PHONY : CMakeFiles/terpiece.dir/rule
@@ -166,7 +166,7 @@ terpiece: CMakeFiles/terpiece.dir/rule
 # codegen rule for target.
 CMakeFiles/terpiece.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/terpiece.dir/build.make CMakeFiles/terpiece.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36 "Finished codegen for target terpiece"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/smarttapon/coding_prac/terPiece/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38 "Finished codegen for target terpiece"
 .PHONY : CMakeFiles/terpiece.dir/codegen
 
 # clean rule for target.

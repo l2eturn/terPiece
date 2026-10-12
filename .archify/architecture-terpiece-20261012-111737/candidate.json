@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "terPiece Game Architecture",
+    "output": ".archify/architecture-terpiece-20261012-111737/terpiece.html",
+    "quality_profile": "showcase",
+    "locale": "en",
+    "repository": {
+      "url": "git@github.com:l2eturn/terPiece.git",
+      "revision": "32ec6875a16aee1369b95d73f8b1b8fe4fc4efde",
+      "link_mode": "local-only"
+    }
+  },
+  "components": [
+    { "id": "player-input", "type": "external", "label": "Player", "sublabel": "CLI flags · env", "pos": [40, 200], "size": [140, 64],
+      "sources": [{ "path": "src/main.cpp", "line": 17, "end_line": 52, "label": "argv + TERPIECE_SERVER" }] },
+    { "id": "entry", "type": "backend", "label": "main.cpp", "sublabel": "parse args · restart", "pos": [290, 200], "size": [150, 64],
+      "sources": [{ "path": "src/main.cpp", "line": 53, "end_line": 64, "label": "Game::run, execv on 100" }] },
+    { "id": "game-loop", "type": "backend", "label": "Game::run", "sublabel": "GLFW loop · game.cpp", "pos": [560, 200], "size": [160, 64], "tag": "OpenGL 4.1 core",
+      "sources": [
+        { "path": "src/game/game.cpp", "line": 262, "end_line": 270, "label": "openWindow (GL 4.1)" },
+        { "path": "src/game/game.cpp", "line": 298, "end_line": 315, "label": "build()" },
+        { "path": "src/game/game.cpp", "line": 1157, "end_line": 1350, "label": "run loop" }
+      ] },
+    { "id": "gameplay", "type": "backend", "label": "Gameplay tick", "sublabel": "player · pets · boats", "pos": [820, 200], "size": [160, 64],
+      "sources": [
+        { "path": "src/game/game.cpp", "line": 996, "end_line": 1125, "label": "tick()" },
+        { "path": "src/game/player.cpp", "line": 144, "label": "Player::update" }
+      ] },
+    { "id": "worlds", "type": "backend", "label": "Overworld", "sublabel": "winter + medieval + wilds", "pos": [1130, 200], "size": [170, 64],
+      "sources": [
+        { "path": "src/world/world.h", "line": 58, "end_line": 78, "label": "World interface" },
+        { "path": "src/world/overworld.cpp", "line": 40, "label": "Overworld ctor" },
+        { "path": "src/game/game.cpp", "line": 306, "end_line": 311, "label": "worlds built" }
+      ] },
+    { "id": "save-store", "type": "database", "label": "Save files", "sublabel": "App Support/terPiece", "pos": [290, 40], "size": [150, 64],
+      "sources": [
+        { "path": "src/game/save.cpp", "line": 14, "label": "save dir" },
+        { "path": "src/game/save.cpp", "line": 61, "end_line": 66, "label": "store() JSON" },
+        { "path": "src/game/game.cpp", "line": 200, "end_line": 203, "label": "skipped in --shot" }
+      ] },
+    { "id": "audio", "type": "backend", "label": "Audio", "sublabel": "miniaudio · sfx · mp3", "pos": [560, 40], "size": [160, 64],
+      "sources": [
+        { "path": "src/game/game.cpp", "line": 129, "label": "Audio member" },
+        { "path": "src/audio/audio.cpp", "line": 148, "label": "xmas.mp3" }
+      ] },
+    { "id": "net", "type": "backend", "label": "Multiplayer", "sublabel": "socket thread", "pos": [820, 40], "size": [160, 64],
+      "sources": [
+        { "path": "src/net/net.cpp", "line": 392, "end_line": 404, "label": "ctor spawns thread" },
+        { "path": "src/net/net.cpp", "line": 416, "label": "update() drains msgs" },
+        { "path": "src/game/game.cpp", "line": 1095, "label": "called from tick" }
+      ] },
+    { "id": "ws-server", "type": "external", "label": "server.py", "sublabel": "patty-project relay", "pos": [1130, 40], "size": [170, 64], "tag": "optional",
+      "sources": [{ "path": "src/net/net.cpp", "line": 76, "end_line": 92, "label": "TCP + WS upgrade" }] },
+    { "id": "renderer", "type": "frontend", "label": "Renderer", "sublabel": "shadows · fog · post", "pos": [560, 370], "size": [160, 64],
+      "sources": [
+        { "path": "src/scene/renderer.cpp", "line": 36, "label": "load shader programs" },
+        { "path": "src/scene/renderer.cpp", "line": 301, "label": "render()" },
+        { "path": "src/scene/renderer.cpp", "line": 380, "label": "present()" }
+      ] },
+    { "id": "assets", "type": "database", "label": "shaders/ · assets/", "sublabel": "GLSL · glb · mp3", "pos": [290, 370], "size": [150, 64],
+      "sources": [
+        { "path": "CMakeLists.txt", "line": 71, "end_line": 73, "label": "SHADER/ASSET/WEB_DIR" },
+        { "path": "src/gfx/shader.cpp", "line": 52, "label": "GLSL path" },
+        { "path": "src/game/home.cpp", "line": 18, "label": "assets/models" }
+      ] },
+    { "id": "hud", "type": "frontend", "label": "HUD", "sublabel": "Canvas2D · CoreText", "pos": [820, 370], "size": [160, 64],
+      "sources": [
+        { "path": "src/ui/hud.cpp", "line": 269, "end_line": 271, "label": "overlay shader" },
+        { "path": "src/ui/hud.cpp", "line": 624, "label": "Hud::draw" },
+        { "path": "src/ui/canvas2d.mm", "line": 28, "label": "CoreText fonts" }
+      ] },
+    { "id": "cw-assets", "type": "external", "label": "Cube World assets", "sublabel": "$CW_ASSETS · not bundled", "pos": [1130, 370], "size": [170, 64], "tag": "optional",
+      "sources": [
+        { "path": "src/world/cubeworld.cpp", "line": 469, "end_line": 473, "label": "dir + fallback" },
+        { "path": "src/world/cubeworld.cpp", "line": 497, "label": "loadGltf" },
+        { "path": "src/game/game.cpp", "line": 445, "end_line": 457, "label": "populate worlds" }
+      ] },
+    { "id": "screen", "type": "external", "label": "Window / --shot", "sublabel": "swap buffers · PPM file", "pos": [680, 530], "size": [180, 64],
+      "sources": [
+        { "path": "src/game/game.cpp", "line": 1338, "label": "write --shot PPM" },
+        { "path": "src/game/game.cpp", "line": 1348, "label": "glfwSwapBuffers" }
+      ] }
+  ],
+  "connections": [
+    { "id": "cli-args", "from": "player-input", "to": "entry", "label": "CLI args", "variant": "emphasis" },
+    { "id": "launch", "from": "entry", "to": "game-loop", "label": "LaunchOptions", "variant": "emphasis" },
+    { "id": "tick", "from": "game-loop", "to": "gameplay", "label": "tick(dt)", "variant": "emphasis" },
+    { "id": "world-query", "from": "gameplay", "to": "worlds", "label": "groundAt · update", "variant": "emphasis" },
+    { "id": "persist", "from": "game-loop", "to": "save-store", "label": "load / store JSON", "fromSide": "top", "toSide": "bottom" },
+    { "id": "sfx", "from": "game-loop", "to": "audio", "label": "sfx calls", "fromSide": "top", "toSide": "bottom" },
+    { "id": "net-update", "from": "gameplay", "to": "net", "label": "state / peers", "fromSide": "top", "toSide": "bottom" },
+    { "id": "ws", "from": "net", "to": "ws-server", "label": "ws:// JSON", "variant": "dashed" },
+    { "id": "cw-load", "from": "worlds", "to": "cw-assets", "label": "loadGltf", "variant": "dashed", "fromSide": "bottom", "toSide": "top" },
+    { "id": "draw-scene", "from": "game-loop", "to": "renderer", "label": "render(scene)", "fromSide": "bottom", "toSide": "top" },
+    { "id": "load-glsl", "from": "renderer", "to": "assets", "label": "load GLSL" },
+    { "id": "draw-hud", "from": "game-loop", "to": "hud", "label": "hud.draw", "fromSide": "bottom", "toSide": "top" },
+    { "id": "present", "from": "renderer", "to": "screen", "label": "present()", "fromSide": "bottom", "toSide": "left" },
+    { "id": "overlay", "from": "hud", "to": "screen", "label": "overlay", "fromSide": "bottom", "toSide": "right" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Frame loop", "items": [
+      "main.cpp parses flags, runs Game; exit code 100 re-execs (secret code / reset)",
+      "Each frame: poll GLFW input → tick(dt) → render scene → HUD overlay → swap",
+      "--shot writes a PPM after a few frames and skips writing the save"
+    ] },
+    { "dot": "emerald", "title": "World & gameplay", "items": [
+      "Overworld stitches Winter (global) and Medieval (placed at 0,250, rotated π) plus The Wilds",
+      "Gameplay talks to worlds through the World interface (groundAt, collisions, zones)",
+      "Cube World props load only when external assets exist; otherwise built-in models"
+    ] },
+    { "dot": "amber", "title": "Rendering stack", "items": [
+      "src/scene is a mini three.js: geometry, materials, glTF (cgltf + meshopt)",
+      "Renderer: PCF shadows, ≤16 point lights, fog, MSAA → pixel 2× → tilt-shift/grade",
+      "HUD draws Canvas2D (CoreText, Thai + emoji) textures as overlay quads"
+    ] },
+    { "dot": "rose", "title": "Scope note", "items": [
+      "Evidence pinned to commit 32ec687; combat.cpp and terrain.cpp are uncommitted and not shown",
+      "Multiplayer is optional: only connects when --server or TERPIECE_SERVER is set"
+    ] }
+  ]
+}

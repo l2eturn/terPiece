@@ -48,6 +48,19 @@ public:
     // happy hop when something is picked up
     void cheer(float t);
 
+    // ---------- combat (game/combat.cpp) ----------
+    // walking speed multiplier (slowed while swinging)
+    float moveScale = 1;
+    // dodge roll: fixed ground velocity for `time` seconds, the sprite spins
+    void dash(glm::vec2 dir, float speed, float time);
+    bool dashing() const { return dashTime_ > 0; }
+    // turn to face a direction at once (aiming an attack)
+    void face(float y) { yaw = y; }
+    // tint the sprite (red when hurt); amount 0 = normal
+    void tint(glm::vec3 color, float amount);
+    // the sprite group (things held in hand hang off this)
+    Object3D& body() { return *actor_->object; }
+
 private:
     const World* world_;
     std::string kind_;
@@ -59,4 +72,7 @@ private:
     float coyote_ = 0, jumpBuffer_ = 0, phase_ = 0, speedAmt_ = 0;
     int lastStepPhase_ = 0, jumpCount_ = 0;
     double clock_ = 0;
+    float dashTime_ = 0, dashTotal_ = 0;
+    glm::vec2 dashVel_{0};
+    glm::vec3 baseEmissive_{0};
 };

@@ -40,6 +40,7 @@ public:
     bool isWater(float x, float z) const override { return medieval::heightAt(x, z) < medieval::WATER_Y - 0.15f; }
     bool isFree(float x, float z, float r, bool ignoreTrees = false) const override;
     std::string zoneAt(float x, float z) const override;
+    Surface surfaceAt(float x, float z) const override;
     void setTimeOfDay(const std::string& name) override;
     void update(float t, float dt, glm::vec3 focus) override;
 

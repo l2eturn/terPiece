@@ -21,7 +21,8 @@ const glm::vec3 HOME_DOOR(HOME.x, 0, HOME.z + 5.2f);
 struct Mountain {
     float x, z, r, h, step;
 };
-const Mountain MOUNTAIN{12, -66, 26, 22, 1.1f};
+// terraces are two ground blocks tall (the web build uses 1.1 m)
+const Mountain MOUNTAIN{12, -66, 26, 22, 2 * 0.45f};
 // crystal cave interior lives far outside the main map (x > 150) and is reached by warping
 const glm::vec2 CAVE(220, 0);
 const glm::vec2 CAVE_MOUTH(MOUNTAIN.x - 23, MOUNTAIN.z + 6);
@@ -43,6 +44,7 @@ public:
     bool isIce(float x, float z) const override { return winter::isIceAt(x, z); }
     bool isFree(float x, float z, float r, bool ignoreTrees = false) const override;
     std::string zoneAt(float x, float z) const override;
+    Surface surfaceAt(float x, float z) const override;
     void setTimeOfDay(const std::string& name) override;
     void update(float t, float dt, glm::vec3 focus) override;
 
@@ -67,7 +69,6 @@ private:
     void applyTOD(float k);
 
     void buildSky();
-    void buildGround();
     void buildPond();
     void buildTrees();
     void lamp(float x, float z);
@@ -78,7 +79,6 @@ private:
     float crate(float x, float z, int level);
     float rock(float x, float z, float h, float r = 0.8f);
     void buildChristmasTree();
-    void buildMountain();
     void buildSummit();
     void buildCaveMouth();
     void buildCave();

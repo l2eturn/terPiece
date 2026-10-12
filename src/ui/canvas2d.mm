@@ -434,23 +434,37 @@ void Canvas2D::copyFrom(const Canvas2D& o) {
     if (o.d->px.size() == d->px.size()) std::copy(o.d->px.begin(), o.d->px.end(), d->px.begin());
 }
 
-std::vector<uint8_t> Canvas2D::pixels() const {
-    std::vector<uint8_t> out = d->px;
-    for (size_t i = 0; i < out.size(); i += 4) {
-        uint8_t a = out[i + 3];
-        if (a == 0 || a == 255) continue;
-        for (int k = 0; k < 3; ++k) out[i + k] = (uint8_t)std::min(255, out[i + k] * 255 / a);
-    }
-    return out;
+void Canvas2D::uploadPremultiplied(Texture& t) const {
+    TextureOptions o;
+    o.srgb = false;
+    o.nearest = false;
+    o.mipmaps = false;
+    o.repeat = false;
+    o.flipY = false;
+    t.upload(w_, h_, d->px.data(), o);
 }
 
-void Canvas2D::upload(Texture& t, bool nearest) const {
+void Canvas2D::upload(Texture& t, bool nearest, bool mipmaps) const {
     TextureOptions o;
     o.srgb = false;
     o.nearest = nearest;
-    o.mipmaps = !nearest;
+    o.mipmaps = mipmaps && !nearest;
     o.repeat = false;
-    t.upload(w_, h_, pixels(), o);
+    // un-premultiply and flip (flipY) in one pass into a buffer reused by every canvas upload
+    o.flipY = false;
+    static std::vector<uint8_t> out;
+    out.resize(d->px.size());
+    size_t row = (size_t)w_ * 4;
+    for (int y = 0; y < h_; ++y) {
+        const uint8_t* s = d->px.data() + (size_t)y * row;
+        uint8_t* dst = out.data() + (size_t)(h_ - 1 - y) * row;
+        for (size_t i = 0; i < row; i += 4) {
+            uint8_t a = s[i + 3];
+            dst[i + 3] = a;
+            for (int k = 0; k < 3; ++k) dst[i + k] = a == 0 || a == 255 ? s[i + k] : (uint8_t)std::min(255, s[i + k] * 255 / a);
+        }
+    }
+    t.upload(w_, h_, out.data(), o);
 }
 
 void registerFonts() {

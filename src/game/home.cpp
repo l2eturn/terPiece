@@ -44,7 +44,12 @@ struct HomeDiorama::Fire {
         glm::vec3 colour{1};
     };
     std::vector<P> particles;
-    GeoPtr geo = std::make_shared<Geometry>();
+    // particles are rewritten every frame
+    GeoPtr geo = [] {
+        auto g = std::make_shared<Geometry>();
+        g->dynamic = true;
+        return g;
+    }();
     ObjPtr points;
     glm::vec3 emitter{0.1f, -2.2f, -1.6f};
     float accum = 0;
@@ -123,6 +128,8 @@ HomeDiorama::HomeDiorama(bool characters, bool darken) : fire_(std::make_unique<
     bo.srgb = false;
     bo.nearest = false;
     bo.flipY = false;
+    // the bake is 4096²: the room never fills the screen, 1024 looks the same at a sixteenth of the memory
+    bo.maxSize = 1024;
     baked->load(modelPath("baked.jpg"), bo);
     auto bakedMaterial = basic(glm::vec3(1), baked);
     auto snowMaterial = standard(hexc(0xeeeeee), 0.6f, 0.1f);

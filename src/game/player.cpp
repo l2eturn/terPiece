@@ -162,7 +162,7 @@ void Player::update(float dt, glm::vec2 move, float camYaw, bool sprint, bool up
         velocity.z += (fz * speed - velocity.z) * std::min(1.0f, 1.6f * dt);
     } else {
         bool swimming = world_->isWater(position.x, position.z) && grounded && position.y < -0.6f;
-        float maxSpeed = (sprint ? 7.5f : 4.6f) * mag * (swimming ? 0.5f : 1);
+        float maxSpeed = (sprint ? 7.5f : 4.6f) * mag * (swimming ? 0.5f : 1) * moveScale;
         float accel = !grounded ? 6 : onIce ? 1.6f : 14;
         velocity.x += (dx * maxSpeed - velocity.x) * std::min(1.0f, accel * dt);
         velocity.z += (dz * maxSpeed - velocity.z) * std::min(1.0f, accel * dt);
@@ -200,6 +200,13 @@ void Player::update(float dt, glm::vec2 move, float camYaw, bool sprint, bool up
     } else {
         velocity.y -= GRAVITY * dt;
     }
+    // dodge roll overrides the walking velocity
+    if (dashTime_ > 0) {
+        dashTime_ -= dt;
+        velocity.x = dashVel_.x;
+        velocity.z = dashVel_.y;
+        yaw = std::atan2(dashVel_.x, dashVel_.y);
+    }
     float ox = position.x, oz = position.z;
     position += velocity * dt;
     world_->resolveCollisions(position, 0.28f);
@@ -232,8 +239,8 @@ void Player::update(float dt, glm::vec2 move, float camYaw, bool sprint, bool up
         position.y = g;
         velocity.y = 0;
         grounded = true;
-    } else if (wasGrounded && velocity.y <= 0 && position.y - g < 0.35f) {
-        // walking down a slope: stay glued to the ground
+    } else if (wasGrounded && velocity.y <= 0 && position.y - g < 0.5f) {
+        // walking down a slope or one ground block: stay glued to the ground
         position.y = g;
         velocity.y = 0;
     } else {
@@ -280,6 +287,8 @@ void Player::update(float dt, glm::vec2 move, float camYaw, bool sprint, bool up
     actor_->setFrame(dir + step);
     // wobble while sliding on ice, squash and stretch while jumping
     actor_->plane->rotation.z = onIce && hs > 1 ? std::sin((float)clock_ * 1000 / 300) * 0.12f : 0;
+    // one full spin during a dodge roll
+    if (dashTime_ > 0) actor_->plane->rotation.z = (1 - dashTime_ / dashTotal_) * PI * 2;
     float squash = !grounded ? (velocity.y > 0 ? 1.08f : 0.97f) : 1;
     actor_->plane->scale = {2 - squash, squash, 1};
 
@@ -290,6 +299,21 @@ void Player::update(float dt, glm::vec2 move, float camYaw, bool sprint, bool up
         if (onStep)
             onStep({position.x + std::cos(yaw) * 0.09f * side, position.y + 0.02f, position.z - std::sin(yaw) * 0.09f * side}, yaw);
     }
+}
+
+void Player::dash(glm::vec2 dir, float speed, float time) {
+    float l = glm::length(dir);
+    if (l < 1e-4f) dir = {std::sin(yaw), std::cos(yaw)};
+    else dir /= l;
+    dashVel_ = dir * speed;
+    dashTime_ = dashTotal_ = time;
+}
+
+void Player::tint(glm::vec3 color, float amount) {
+    auto& m = *actor_->plane->material();
+    if (baseEmissive_ == glm::vec3(0)) baseEmissive_ = m.emissive;
+    m.color = glm::mix(glm::vec3(1), color, amount);
+    m.emissive = glm::mix(baseEmissive_, color, amount);
 }
 
 void Player::cheer(float t) { actor_->plane->position.y = std::abs(std::sin(t * 14)) * 0.15f; }

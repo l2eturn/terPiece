@@ -24,6 +24,9 @@ struct Settings {
     // parkour courses finished
     std::vector<std::string> stars;
     bool glider = false;
+    // combat progress (desktop only — the web build has no fighting)
+    int level = 1;
+    int xp = 0;
 };
 
 namespace save {

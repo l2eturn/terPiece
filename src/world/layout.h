@@ -24,6 +24,23 @@ inline glm::vec2 toLocal(glm::vec2 global, glm::vec2 offset, float rot) {
     return {dx * c - dz * s, dx * s + dz * c};
 }
 inline glm::vec2 medievalToGlobal(glm::vec2 l) { return toGlobal(l, MEDIEVAL_OFFSET, MEDIEVAL_ROT); }
+inline glm::vec2 medievalToLocal(glm::vec2 g) { return toLocal(g, MEDIEVAL_OFFSET, MEDIEVAL_ROT); }
+
+// ---------- block terrain (Cube World style, world/terrain.cpp) ----------
+// The whole world's ground is one grid of BLOCK-sized columns in global coordinates. Every height function
+// samples its raw shape at the centre of the column a point falls in and rounds it to whole blocks, so the
+// physics walks on exactly the blocks that are drawn — and the towns and the wilds can never leave a gap.
+constexpr float BLOCK = 0.45f;
+constexpr float WATER_LEVEL = -0.45f;
+// centre of the column containing a global point
+inline glm::vec2 cellCenter(float x, float z) { return {(std::floor(x / BLOCK) + 0.5f) * BLOCK, (std::floor(z / BLOCK) + 0.5f) * BLOCK}; }
+// raw height -> whole blocks. No block top sits level with the water (it would flicker): that shore stays dry
+// and the bed goes one block deeper.
+inline float toBlocks(float h) {
+    float q = std::round(h / BLOCK) * BLOCK;
+    if (std::abs(q - WATER_LEVEL) < 1e-3f) q = h < WATER_LEVEL - 0.15f ? WATER_LEVEL - BLOCK : 0;
+    return q;
+}
 
 // The opening in each town's rim where the valley comes in: town-local +Z, |x| below ~22 m.
 // Returns 1 inside the opening, 0 outside (smooth edge).
@@ -65,8 +82,8 @@ inline float riverDepthK(float x, float z) {
     return k;
 }
 
-// height of the wilds terrain at a global point (also used by both towns where their rim opens)
-inline float wildsHeight(float x, float z) {
+// smooth shape of the wilds terrain at a global point (the towns blend into it where their rim opens)
+inline float wildsRaw(float x, float z) {
     // rolling meadow that never dips below the water (so no stray puddles)
     float h = 0.35f + 0.35f * (0.5f + 0.5f * std::sin(x * 0.11f + 0.4f) * std::cos(z * 0.07f)) + 0.25f * (0.5f + 0.5f * std::sin((x - z) * 0.05f));
     // a few soft hills away from the road
@@ -81,6 +98,24 @@ inline float wildsHeight(float x, float z) {
     float k = riverDepthK(x, z);
     h = glm::mix(h, -1.6f, k);
     return h;
+}
+
+// where to stand something with a wide base (a tree's roots) on stepped ground: the lowest column under
+// its footprint, so it sinks into the higher step instead of hanging over the lower one (at most two blocks)
+template <class HeightFn>
+float footHeight(HeightFn height, float x, float z, float r) {
+    float c = height(x, z), lo = c;
+    for (int i = 0; i < 8; ++i) {
+        float a = i * 0.785398f;
+        lo = std::min(lo, height(x + std::cos(a) * r, z + std::sin(a) * r));
+    }
+    return std::max(lo, c - 2 * BLOCK);
+}
+
+// height of the wilds ground in whole blocks
+inline float wildsHeight(float x, float z) {
+    glm::vec2 c = cellCenter(x, z);
+    return toBlocks(wildsRaw(c.x, c.y));
 }
 
 }  // namespace layout

@@ -11,7 +11,8 @@ using namespace winter;
 
 namespace {
 
-constexpr float ICE_Y = -0.05f;
+// the frozen lake lies on the flat ground blocks (the web build sinks it into a dip)
+constexpr float ICE_Y = 0.04f;
 struct Hill {
     float x, z, h, s;
 };
@@ -53,8 +54,8 @@ MatPtr lam(const std::string& texKey, uint32_t color = 0xffffff) { return lamber
 
 namespace winter {
 
-float heightAt(float x, float z) {
-    if (isInCave(x)) return 0;
+// the smooth shape of the village (heightAt() turns it into blocks)
+float rawHeight(float x, float z) {
     float h = 0.45f * std::sin(x * 0.13f + 1.3f) * std::cos(z * 0.11f) + 0.3f * std::sin((x + z) * 0.07f);
     h *= smoothstep(6, 14, std::hypot(x, z));
     h *= smoothstep(6, 11, std::hypot(x - HOME.x, z - HOME.z));
@@ -72,8 +73,15 @@ float heightAt(float x, float z) {
     float open = layout::corridor(x, z);
     if (r > WORLD_R - 4) h += std::pow(r - (WORLD_R - 4), 1.5f) * 0.4f * (1 - open);
     // blend into the wilds so the ground meets the valley without a step
-    if (open > 0) h = glm::mix(h, layout::wildsHeight(x, z), open * smoothstep(WORLD_R - 10, WORLD_R, r));
+    if (open > 0) h = glm::mix(h, layout::wildsRaw(x, z), open * smoothstep(WORLD_R - 10, WORLD_R, r));
     return h;
+}
+
+float heightAt(float x, float z) {
+    // the crystal cave has its own floor
+    if (isInCave(x)) return 0;
+    glm::vec2 c = layout::cellCenter(x, z);
+    return layout::toBlocks(rawHeight(c.x, c.y));
 }
 
 bool isIceAt(float x, float z) { return std::hypot(x - POND.x, z - POND.z) < POND.r; }
@@ -101,7 +109,7 @@ WinterWorld::WinterWorld() {
     mDoor = lam("door");
 
     buildSky();
-    buildGround();
+    // the ground and the mountain terraces are blocks now (world/terrain.cpp)
     buildPond();
     buildTrees();
     buildLamps();
@@ -117,7 +125,6 @@ WinterWorld::WinterWorld() {
     rock(23.3f, -24.6f, 1.8f);
     rock(25.2f, -26.4f, 2.5f, 0.95f);
     buildChristmasTree();
-    buildMountain();
     buildSummit();
     buildCaveMouth();
     buildCave();
@@ -246,44 +253,6 @@ void WinterWorld::buildSky() {
     env.fogFar = 90;
 }
 
-// ---------- snow ground: 200 m plane, colours snow -> path -> rock on steep slopes ----------
-void WinterWorld::buildGround() {
-    const float size = 200;
-    const int seg = 240;
-    auto g = geo::plane(size, size, seg, seg);
-    g->rotateX(-PI / 2);
-    const glm::vec3 snowC(1), pathC = hexc(0xa8968c), rockC = hexc(0x8d8794);
-    g->color.resize(g->position.size());
-    for (size_t i = 0; i < g->position.size(); ++i) {
-        float x = g->position[i].x, z = g->position[i].z;
-        g->position[i].y = heightAt(x, z);
-        float k = 1 - smoothstep(0.6f, 1.6f, distToPathsW(x, z));
-        glm::vec3 c = glm::mix(snowC, pathC, k * 0.8f);
-        float n = std::sin(x * 2.1f) * std::cos(z * 1.7f) * 0.02f;
-        g->color[i] = c + glm::vec3(n);
-    }
-    g->computeVertexNormals();
-    // steep cliffs -> rock colour
-    for (size_t i = 0; i < g->position.size(); ++i) {
-        float k = 1 - smoothstep(0.55f, 0.8f, g->normal[i].y);
-        if (k > 0) g->color[i] = glm::mix(g->color[i], rockC, k);
-    }
-    for (size_t i = 0; i < g->position.size(); ++i) g->uv[i] = {g->position[i].x, g->position[i].z};
-    // drop the part of the square that lies out in the valley (the wilds draw their own ground there)
-    std::vector<uint32_t> kept;
-    for (size_t i = 0; i + 2 < g->index.size(); i += 3) {
-        glm::vec3 c = (g->position[g->index[i]] + g->position[g->index[i + 1]] + g->position[g->index[i + 2]]) / 3.0f;
-        if (layout::corridor(c.x, c.z) > 0.5f && std::hypot(c.x, c.z) > WORLD_R + 2) continue;
-        kept.insert(kept.end(), {g->index[i], g->index[i + 1], g->index[i + 2]});
-    }
-    g->index = kept;
-    auto m = lambert(tex::get("snow"));
-    m->vertexColors = true;
-    auto ground = makeMesh(g, m);
-    ground->receiveShadow = true;
-    addObject(ground);
-}
-
 // ---------- frozen lake + snow island in the middle (where Juice sleeps) ----------
 void WinterWorld::buildPond() {
     auto im = lambert(tex::get("ice"));
@@ -386,8 +355,9 @@ void WinterWorld::buildTrees() {
         const Spot& s = spots[i];
         glm::quat q = glm::angleAxis(s.rot, glm::vec3(0, 1, 0));
         float sy = s.s * (0.9f + rand_.f() * 0.3f);
-        inst->instances[i] = composeMatrix({s.x, heightAt(s.x, s.z) - 0.25f, s.z}, q, {s.s, sy, s.s});
-        treeShapes_.push_back({s.x, s.z, heightAt(s.x, s.z) - 0.25f + 0.6f * s.s, 4.0f * s.s, 1.45f * s.s});
+        float y = layout::footHeight(heightAt, s.x, s.z, 0.8f * s.s);
+        inst->instances[i] = composeMatrix({s.x, y - 0.25f, s.z}, q, {s.s, sy, s.s});
+        treeShapes_.push_back({s.x, s.z, y - 0.25f + 0.6f * s.s, 4.0f * s.s, 1.45f * s.s});
         TreeRef ref;
         ref.x = s.x;
         ref.z = s.z;
@@ -745,44 +715,6 @@ void WinterWorld::buildChristmasTree() {
     });
 }
 
-// ---------- stone cliff on every mountain terrace (so each step reads clearly) ----------
-void WinterWorld::buildMountain() {
-    const int SEG = 72;
-    std::vector<float> pos, capPos;
-    int levels = (int)std::floor(MOUNTAIN.h / MOUNTAIN.step);
-    for (int lv = 1; lv <= levels; ++lv) {
-        float top = lv * MOUNTAIN.step;
-        float kk = std::pow((lv - 0.07f) / (MOUNTAIN.h / MOUNTAIN.step), 1 / 1.15f);
-        std::vector<glm::vec2> ring;
-        for (int i = 0; i <= SEG; ++i) {
-            float a = (float)i / SEG * PI * 2;
-            float wob = 1 + 0.12f * std::sin(a * 3 + 1) + 0.07f * std::sin(a * 7);
-            float d = MOUNTAIN.r * wob * (1 - kk);
-            ring.push_back({MOUNTAIN.x + std::cos(a) * d, MOUNTAIN.z + std::sin(a) * d});
-        }
-        for (int i = 0; i < SEG; ++i) {
-            glm::vec2 p0 = ring[i], p1 = ring[i + 1];
-            if (glm::length((p0 + p1) * 0.5f - CAVE_MOUTH) < 4.5f) continue;
-            float y0 = top - MOUNTAIN.step - 0.05f, y1 = top + 0.02f;
-            pos.insert(pos.end(), {p0.x, y0, p0.y, p1.x, y0, p1.y, p1.x, y1, p1.y, p0.x, y0, p0.y, p1.x, y1, p1.y, p0.x, y1, p0.y});
-            // snow lip on the terrace
-            glm::vec2 c(MOUNTAIN.x, MOUNTAIN.z);
-            glm::vec2 in0 = p0 + (c - p0) * 0.04f, in1 = p1 + (c - p1) * 0.04f;
-            float yc = y1 + 0.06f;
-            capPos.insert(capPos.end(), {p0.x, yc, p0.y, in1.x, yc, in1.y, p1.x, yc, p1.y, p0.x, yc, p0.y, in0.x, yc, in0.y, in1.x, yc, in1.y});
-        }
-    }
-    auto wm = lambert(tex::get("stone"));
-    wm->side = Side::Double;
-    auto walls = makeMesh(geo::worldUV(geo::fromPositions(pos), 1.2f), wm);
-    walls->castShadow = walls->receiveShadow = true;
-    addObject(walls);
-    auto cm = lambert(tex::get("roofSnow"));
-    cm->side = Side::Double;
-    auto caps = makeMesh(geo::worldUV(geo::fromPositions(capPos)), cm);
-    addObject(caps);
-}
-
 // ---------- summit: flag, bench, lamps ----------
 void WinterWorld::buildSummit() {
     float top = heightAt(MOUNTAIN.x, MOUNTAIN.z);
@@ -792,6 +724,8 @@ void WinterWorld::buildSummit() {
     auto fm = lambertColor(hexc(0xff4f8b));
     fm->side = Side::Double;
     auto flagGeo = geo::plane(1.2f, 0.7f, 6, 1);
+    // waves every frame
+    flagGeo->dynamic = true;
     auto flag = makeMesh(flagGeo, fm);
     flag->position = {0.62f, 2.8f, 0};
     auto bench = W(geo::box(1.6f, 0.12f, 0.5f), mWood);
@@ -1040,6 +974,12 @@ bool WinterWorld::isFree(float x, float z, float r, bool ignoreTrees) const {
     resolveCollisions(p, r);
     skipTrees_ = false;
     return p.x == x && p.z == z;
+}
+
+Surface WinterWorld::surfaceAt(float x, float z) const {
+    // trodden paths: snow tinted brown
+    if (distToPathsW(x, z) < 1.1f) return {Ground::Snow, glm::mix(glm::vec3(1), hexc(0xa8968c), 0.8f)};
+    return {Ground::Snow};
 }
 
 std::string WinterWorld::zoneAt(float x, float z) const {

@@ -9,6 +9,7 @@ set(OLD_GLOB
   "/Users/smarttapon/coding_prac/terPiece/src/art/textures.cpp"
   "/Users/smarttapon/coding_prac/terPiece/src/audio/audio.cpp"
   "/Users/smarttapon/coding_prac/terPiece/src/game/berries.cpp"
+  "/Users/smarttapon/coding_prac/terPiece/src/game/combat.cpp"
   "/Users/smarttapon/coding_prac/terPiece/src/game/effects.cpp"
   "/Users/smarttapon/coding_prac/terPiece/src/game/game.cpp"
   "/Users/smarttapon/coding_prac/terPiece/src/game/home.cpp"
@@ -30,6 +31,7 @@ set(OLD_GLOB
   "/Users/smarttapon/coding_prac/terPiece/src/world/cubeworld.cpp"
   "/Users/smarttapon/coding_prac/terPiece/src/world/medieval.cpp"
   "/Users/smarttapon/coding_prac/terPiece/src/world/overworld.cpp"
+  "/Users/smarttapon/coding_prac/terPiece/src/world/terrain.cpp"
   "/Users/smarttapon/coding_prac/terPiece/src/world/winter.cpp"
   "/Users/smarttapon/coding_prac/terPiece/src/world/world.cpp"
   )

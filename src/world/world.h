@@ -34,6 +34,13 @@ struct TreeShape {
 // extra ground from other modules (voxel buildings): f(x, z, y) -> ground height or -infinity
 using GroundFn = std::function<float(float x, float z, float y)>;
 
+// What the top of a ground block is made of (world/terrain.cpp picks the texture, tint multiplies it)
+enum class Ground { Snow, Grass, Cobble, Dirt, Stone };
+struct Surface {
+    Ground kind = Ground::Snow;
+    glm::vec3 tint{1};
+};
+
 // Data the minimap draws (mapData in the JS)
 struct MapData {
     std::string type;
@@ -75,6 +82,8 @@ public:
     // free spot for decorations: no collision, not on a path / ice / water
     virtual bool isFree(float x, float z, float r, bool ignoreTrees = false) const = 0;
     virtual std::string zoneAt(float x, float z) const = 0;
+    // ground block surface at a point (in this realm's coordinates)
+    virtual Surface surfaceAt(float, float) const { return {}; }
     virtual void setTimeOfDay(const std::string& name) = 0;
     virtual void update(float t, float dt, glm::vec3 focus) = 0;
 
